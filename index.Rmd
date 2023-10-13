@@ -8,12 +8,10 @@ output:
 ---
 
 
-## Project thoughts
+## Project thoughts, data source and proposal
 
 My project idea is to explore data related to differences in the 2019 EU parliament election in Italy.
 Specifically, I will explore  how education levels and age correlate to voting trends, and gather conclusions from the data.
-
-## Project data source and proposal
 
 Every election year, the European parliament conducts a country-wide post-election survey on a nationally representative sample of citizens of each member of the European Union. There are approximately 80 questions each respondent has to answer and all the interviews are conducted personally. The dataset I chose reports data for Italy.
 
