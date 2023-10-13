@@ -8,7 +8,6 @@ output:
 ---
 
 
-
 ## Project thoughts
 
 My project idea is to explore data related to differences in the 2019 EU parliament election in Italy.
