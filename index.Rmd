@@ -38,31 +38,6 @@ If I observe higher percentages for parties that politically align themselves  o
 #implementation
 
 ```{r}
-
-age_to_Left_right <- read.csv("index_files/age - LR index.csv")
-education_to_left_right <- read.csv("index_files/edu to LR.csv")
-
-EU_to_national_vote <- read.csv("index_files/EU to National Elections.csv")
-EU_to_national_preference <- read.csv("index_files/eb_91.5_post-elect_volume C_IT copy.csv")
-
-summary <- EU_to_national_vote |>
-  group_by(EU) |>
-  summarize(Voted_in_National = sum(Voted.in.National.Election),
-            Did_not_vote_in_National = sum(Did.not.vote.in.National.Election))
-
-histogram <- summary |>
-  pivot_longer(cols = c(Voted_in_National, Did_not_vote_in_National)) |>
-  ggplot(aes(x = EU, y = value, fill = name)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  labs(
-    x = "EU Election Participation",
-    y = "National Election participation",
-    fill = "National Election Outcome"
-  ) +
-  scale_fill_manual(values = c("Voted_in_National" = "steelblue1", "Did_not_vote_in_National" = "indianred3"),
-                    labels = c(Voted_in_National = "Voted in National Election", Did_not_vote_in_National = "Did not vote in National Election"))
-
-histogram
-
+ESS10_data <- read_csv("index_files/ESS10.csv")
 ```
 
