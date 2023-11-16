@@ -7,43 +7,43 @@ output:
     self_contained: false
 ---
 
+<h2>Project source and Proposal</h2>
+
+_**Premise**: The data has been downloaded from the ESS Official Website and then resized to accommodate the needs of this project. That is, a sizeable portion of the unnecessary data has been cut from the original CSV file. Although this has been done, that data is not relevant to this project, as I aim to analyze different variables._
+
+**Data Source**: European Social Survey (ESS) EDITION 10 - 2020 - https://ess.sikt.no/en/study/172ac431-2a06-41df-9dab-c1fd8f3877e7 
+
+The European Social Survey (ESS) is a biannual survey conducted throughout various countries of the European Union that measures _changing public attitudes and values within Europe_, advances and consolidates _improved methods of cross-national survey measurement in Europe_  and develops _a series of European social indicators, including attitudinal indicators._ It is conducted as a one-hour long face-to-face interview, although the data I collected refers to the 2020-22 time period and was partially collected online due to the COVID-19 pandemic. This content has been quoted from the original dataset source.
+
+  My research question is: _Does age correlate with a farther right left-to-right political index in Italy?_
+  
+  I hypothesize that the older the respondents are (the higher the value of age is), the higher their left-to-right political scale is (and thus the more conservative they are). 
+
+   My sample is comprised of all respondents from the EU who sat down with interviewers from the European Social Survey European Research Infrastructure Consortium. I will then subset this data to include only those that indicated that their country of origin is Italy (their value of	`country` is **IT**) and analyze the correlation between variables based on this data. My unit of analysis is a single respondent to the survey.
+      
+  The explanatory variable of interest is therefore `agea`, which is varied throughout this database (with a minimum value of 15 and a maximum value of 999)  and the outcome variable of interest is where, on a scale from 1 to 10, the respondents position themselves politically, with 1 being the indicator for the far left and 10 being the far right (`lrscale`). 
+      
+  To analyze this data, I assume that the respondents under 18 years old were able to form politically valuable opinions that firmly positioned them on the left-to-right index although not yet being able to vote.
+	    
+   If I observe higher values of `lrscale` for older ages (i.e. for higher values of `age`), this will confirm my hypothesis; that is, on average, older respondents tend to position themselves as more right-wing. If I observe lower values of `lrscale` for higher values of `age`, then my hypothesis would be rejected; that is, on average, older respondents tend to position themselves as more left-wing.
+      
+ A linear regression that supports my hypothesis would have a positive coefficient between `age` and `lrscale`. If it were negative, it would be a linear regression that rejected my hypothesis.
+
+
+
+<h3>Implementation</h3>
+
 ```{r}
 library(tidyverse)
 library(broom)
 library(knitr)
-```
 
-## Project thoughts
-
-
-My project idea is to explore data related to differences in the 2019 EU parliament election in Italy.
-Specifically, I will explore  how education levels and age correlate to voting trends, and gather conclusions from the data.
-
-
-## Project data source and proposal
-Every election year, the European parliament conducts a country-wide post-election survey on a nationally representative sample of citizens of each member of the European Union. There are approximately 80 questions each respondent has to answer and all the interviews are conducted personally. The dataset I chose reports data for Italy.
-
-My research will analyze whether age and education levels affect voting choice. Then, it will analyze whether respondents that voted in the EU election also voted in the most recent national election, and if voting in the EU election affects voting choice in the national election. 
-I hyphotesize that lower age, higher levels of education and voting in the European election tend to steer a respondent's view to the left. The explanatory variable of interests are three: the age of the respondent, divided in batches (15-24, 25-39, 40-54, and 55+); the age at which the respondent stopped full-time education (15-, 16-19, 20+); and the whether they voted in the EU election ("Voted", "Did not Vote"). For their age and their education levels, the outcome variable of interest is where, on a scale from 1 to 10, the respondents position themselves politically, with 1 being the indicator for the far left and 10 being the far right.
-
-For whether they voted in the EU election, the outcome variables are two: whether they voted in the national election (Voted, Did not Vote) and who they declared they voted for (Movimento 5 Stelle (M5S), Partito Democratico (PD), Lega, Forza Italia (FI), Fratelli d'Italia (FdI), Liberi ed Uguali (LeU  - MDP + SI + P), +Europa-Centro Democratico (+E), Noi con l'Italia-UDC, Potere al Popolo (PaP), Italia Europa Insieme (Verdi + PSI + altri), Civica Popolare (AP + IDV + altri), Südtiroler Volkspartei (SVP), CasaPound Italia (CPI), Partito Comunista (PC), Other (SPONTANEOUS), Voted blank (SPONTANEOUS), Refusal (SPONTANEOUS)).
-
-If I observe lower values of the left-right voting choice indicator in the dataset for younger ages (18-25) and higher levels of education (20+), this will provide support for my first hypothesis. If I observe higher values of the left-right voting choice indicator in the dataset for younger ages (18-25) and higher levels of education (20+), this will counter my first hypothesis. 
-
-If I observe higher "Voted" values (in the national election vote) for people that voted in the EU election, this will support my second hypothesis. Otherwise, this will not support my hypothesis.
-
-If I observe higher percentages for parties that politically align themselves  on the left for people that voted in the EU election, this will support my third hypothesis. Otherwise, it will not. 
-
-
-#implementation
-
-```{r}
 ESS10_data <- read_csv("index_files/ESS10.csv")
-class(ESS10_data)
+#class(ESS10_data)
 
-as.data.frame(ESS10_data) |> 
-  filter(cntry == "IT") |>
-  max("agea")
+#as.data.frame(ESS10_data) |> 
+  #filter(cntry == "IT") |>
+ # as_tibble()
 
 ```
 
