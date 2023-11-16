@@ -39,5 +39,11 @@ If I observe higher percentages for parties that politically align themselves  o
 
 ```{r}
 ESS10_data <- read_csv("index_files/ESS10.csv")
+class(ESS10_data)
+
+as.data.frame(ESS10_data) |> 
+  filter(cntry == "IT") |>
+  max("agea")
+
 ```
 
