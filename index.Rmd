@@ -15,13 +15,13 @@ _**Premise**: The data has been downloaded from the ESS Official Website and the
 
 The European Social Survey (ESS) is a biannual survey conducted throughout various countries of the European Union that measures _changing public attitudes and values within Europe_, advances and consolidates _improved methods of cross-national survey measurement in Europe_  and develops _a series of European social indicators, including attitudinal indicators._ It is conducted as a one-hour long face-to-face interview, although the data I collected refers to the 2020-22 time period and was partially collected online due to the COVID-19 pandemic. This content has been quoted from the original dataset source.
 
-  My research question is: _Does age correlate with a farther right left-to-right political index in Italy?_
+  My research question is: _How does age people's voting ideology across European Countries?_
   
-  I hypothesize that the older the respondents are (the higher the value of age is), the higher their left-to-right political scale is (and thus the more conservative they are). 
+  I hypothesize that the older the respondents are (the higher the value of age is), the higher their left-to-right political scale is (and thus the more conservative they are). I will specifically look at the difference between select countries (namely, Italy and Hungary) because they have recently held elections that brought right-wing parties to power.
 
-   My sample is comprised of all respondents from the EU who sat down with interviewers from the European Social Survey European Research Infrastructure Consortium. I will then subset this data to include only those that indicated that their country of origin is Italy (their value of	`country` is **IT**) and analyze the correlation between variables based on this data. My unit of analysis is a single respondent to the survey.
+   My sample is comprised of all respondents from the EU who sat down with interviewers from the European Social Survey European Research Infrastructure Consortium. I will then subset this data to include only those that indicated that their country of origin is Italy or Hungary (their value of	`country` is **IT** or **HU**) and analyze the correlation between variables based on this data. My unit of analysis is a single respondent to the survey.
       
-  The explanatory variable of interest is therefore `agea`, which is varied throughout this database (with a minimum value of 15 and a maximum value of 999)  and the outcome variable of interest is where, on a scale from 1 to 10, the respondents position themselves politically, with 1 being the indicator for the far left and 10 being the far right (`lrscale`). 
+  The explanatory variable of interest is therefore `agea`, which is varied throughout this database (with a minimum value of 15 and a maximum value of 90, with 999 being the value for those respondents that did not indicate their age)  and the outcome variable of interest is where, on a scale from 1 to 10 (with 77 for Refusal and 88 for No Answer), the respondents position themselves politically, with 1 being the indicator for the far left and 10 being the far right (`lrscale`). 
       
   To analyze this data, I assume that the respondents under 18 years old were able to form politically valuable opinions that firmly positioned them on the left-to-right index although not yet being able to vote.
 	    
@@ -39,11 +39,57 @@ library(broom)
 library(knitr)
 
 ESS10_data <- read_csv("index_files/ESS10.csv")
-#class(ESS10_data)
 
-#as.data.frame(ESS10_data) |> 
-  #filter(cntry == "IT") |>
- # as_tibble()
+data_all <- ESS10_data |>
+  filter(agea != 999 & lrscale !=77 & lrscale !=88)|>
+  mutate(age_groups = case_when(
+    agea <= 30 ~ "15 - 30",
+    agea > 30 & agea < 45 ~ "30 - 45",
+    agea >= 45 & agea < 60 ~ "45-60",
+    agea>=60 & agea <75 ~ "60 - 75",
+    agea>= 75 & agea <= 90 ~ "75+"
+  )) 
+  
+
+data_all |>
+  group_by(age_groups) |>
+  summarize(mean = mean(lrscale)) |>
+  ggplot(aes(x = age_groups, y = mean)) +
+  geom_bar(stat = "identity", fill = "steelblue1", color = "black", size = 1, width = .8) +
+  scale_y_continuous(limits = c(0, 10), expand = c(0, 0)) +
+  labs(title = "Correlation between Age and Voting Ideology",
+       y = "Average Voting Ideology (left 1-10 - right)",
+       x = "Age Groups")
 
 ```
+
+<h3>Description of my findings - v.1</h3>
+
+The graph shows that on average, Europe is consistent among age groups in their voting ideologies. In particular, there is no clear relation between age and left-to-right voting index, thus showing weak causality.
+
+
+```{r}
+data_italy_GB <- data_all |> 
+  filter(cntry %in% c("IT", "GB"))
+
+data_italy_GB |>
+  group_by(cntry, age_groups) |>
+  summarize(mean = mean(lrscale)) |>
+  ggplot(aes(x = age_groups, y = mean, fill = cntry)) +
+  geom_bar(stat = "identity", fill = "steelblue1", color = "black", size = 1, width = .8) +
+  scale_y_continuous(limits = c(0, 10), expand = c(0, 0)) + 
+  facet_wrap(~ cntry, labeller = labeller(cntry = c(IT = "Italy", GB = "United Kingdom"))) +
+  labs(title = "Correlation between Age and Voting Ideology",
+       y = "Average Voting Ideology (left 1-10 - right)",
+       x = "Age Groups")
+
+```
+<h3>Description of my findings - v.2</h3>
+In these two graphs, I analyze the difference in the relationship between the age groups and the lef-to-right political indexes in Italy and the United Kingdom. 
+
+The results of this analysis show that there is stronger correlation between age and political ideology in the United Kingdom than there is in Italy. That is, in the UK, as survey respondents get older, their political ideology tends to steer to the right, as indicated by the rise in the `lrscale` index. Italy's graph, on the other hand, shows that there is a very weak correlation between age and voting ideology: although the 60-75 age group has a higher `lrscale` value, this decreases for the 75+ group, so I can't assume causality here. 
+
+To successfully understand if there is causality between the two values in the UK, I need to run a linear regression.
+
+
 
