@@ -15,11 +15,11 @@ _**Premise**: The data has been downloaded from the ESS Official Website and the
 
 The European Social Survey (ESS) is a biannual survey conducted throughout various countries of the European Union that measures _changing public attitudes and values within Europe_, advances and consolidates _improved methods of cross-national survey measurement in Europe_  and develops _a series of European social indicators, including attitudinal indicators._ It is conducted as a one-hour long face-to-face interview, although the data I collected refers to the 2020-22 time period and was partially collected online due to the COVID-19 pandemic. This content has been quoted from the original dataset source.
 
-  My research question is: _How does age people's voting ideology across European Countries?_
+  My research question is: _How does age affect people's voting ideology across European Countries?_
   
   I hypothesize that the older the respondents are (the higher the value of age is), the higher their left-to-right political scale is (and thus the more conservative they are). I will specifically look at the difference between select countries (namely, Italy and Hungary) because they have recently held elections that brought right-wing parties to power.
 
-   My sample is comprised of all respondents from the EU who sat down with interviewers from the European Social Survey European Research Infrastructure Consortium. I will then subset this data to include only those that indicated that their country of origin is Italy or Hungary (their value of	`country` is **IT** or **HU**) and analyze the correlation between variables based on this data. My unit of analysis is a single respondent to the survey.
+   My sample is comprised of all respondents from the EU who sat down with interviewers from the European Social Survey European Research Infrastructure Consortium. I will then subset this data to include only those that indicated that their country of origin is Italy or the United Kingdom (their value of	`country` is **IT** or **GB**) and analyze the correlation between variables based on this data. My unit of analysis is a single respondent to the survey.
       
   The explanatory variable of interest is therefore `agea`, which is varied throughout this database (with a minimum value of 15 and a maximum value of 90, with 999 being the value for those respondents that did not indicate their age)  and the outcome variable of interest is where, on a scale from 1 to 10 (with 77 for Refusal and 88 for No Answer), the respondents position themselves politically, with 1 being the indicator for the far left and 10 being the far right (`lrscale`). 
       
