@@ -91,5 +91,11 @@ The results of this analysis show that there is stronger correlation between age
 
 To successfully understand if there is causality between the two values in the UK, I need to run a linear regression.
 
+<h3> Linear Regressions </h3>
+
+```{r}
+lm(agea ~ lrscale, data = data_italy_GB)
+```
+
 
 

@@ -1592,7 +1592,22 @@ Description of my findings - v.2
 <p>In these two graphs, I analyze the difference in the relationship between the age groups and the lef-to-right political indexes in Italy and the United Kingdom.</p>
 <p>The results of this analysis show that there is stronger correlation between age and political ideology in the United Kingdom than there is in Italy. That is, in the UK, as survey respondents get older, their political ideology tends to steer to the right, as indicated by the rise in the <code>lrscale</code> index. Italy’s graph, on the other hand, shows that there is a very weak correlation between age and voting ideology: although the 60-75 age group has a higher <code>lrscale</code> value, this decreases for the 75+ group, so I can’t assume causality here.</p>
 <p>To successfully understand if there is causality between the two values in the UK, I need to run a linear regression.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h3>
+Linear Regressions
+</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>agea</span> <span class='op'>~</span> <span class='va'>lrscale</span>, data <span class='op'>=</span> <span class='va'>data_italy_GB</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>
+Call:
+lm(formula = agea ~ lrscale, data = data_italy_GB)
+
+Coefficients:
+(Intercept)      lrscale  
+    49.1313       0.8474  </code></pre>
+</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
