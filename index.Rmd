@@ -210,3 +210,4 @@ Political Ideology is a very volatile variable to assess. In fact,
 **Data Source**: European Social Survey (ESS) EDITION 10 - 2020 - https://ess.sikt.no/en/study/172ac431-2a06-41df-9dab-c1fd8f3877e7 
 
 
+
