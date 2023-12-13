@@ -256,6 +256,15 @@ modelsummary::modelsummary(list(`Multiple Regression for Italy`= MLR_it),
 <h3>Plotting the regression for Italy</h3>
 
 ```{r}
+# Plotting agea vs lrscale with a regression line
+ggplot(data_italy_multiple, aes(x = lrscale, y = agea)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x, color = "blue") +
+  labs(title = "Age vs Left-to-Right Political Index (IT)",
+       x = "Left-to-Right Political Index (lrscale)",
+       y = "Age (agea)") +
+  theme_minimal()
+
 # Plotting agea vs edulvlb with a regression line
 ggplot(data_italy_multiple, aes(x = edulvlb, y = agea)) +
   geom_point() +
@@ -297,6 +306,15 @@ modelsummary::modelsummary(list(`Multiple Regression for the United Kingdom`= ML
 <h3>Plotting the regression for the UK</h3>
 
 ```{r}
+# Plotting agea vs lrscale with a regression line
+ggplot(data_uk_multiple, aes(x = lrscale, y = agea)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x, color = "blue") +
+  labs(title = "Age vs Left-to-Right Political Index (UK)",
+       x = "Left-to-Right Political Index (lrscale)",
+       y = "Age (agea)") +
+  theme_minimal()
+
 # Plotting agea vs edulvlb with a regression line
 ggplot(data_uk_multiple, aes(x = edulvlb, y = agea)) +
   geom_point() +
