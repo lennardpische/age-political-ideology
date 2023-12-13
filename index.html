@@ -1643,8 +1643,8 @@ Description of findings - v.2
 <h2>
 Linear Regressions
 </h2>
-<p>Before subsetting the data, it’s important to remind that the singular linear regressions for this data produce a line of best fit that has the following form:</p>
-<p><span class="math inline">\(Y = \beta_0 + \beta_1 X\)</span></p>
+<p>Before subsetting the data, it’s important to remind that the simple linear regressions for this data produce a line of best fit that has the following form:</p>
+<p><span class="math inline">\(Y = \beta_0 + \beta_1 X + \epsilon\)</span></p>
 <h3>
 Subsetting data
 </h3>
@@ -1765,7 +1765,7 @@ R2 Adj.
 Description of Regression findings
 </h3>
 <p>Line of best fit for ITALY:</p>
-<p><span class="math inline">\(Y = 50.5 + 0.294X\)</span></p>
+<p><span class="math inline">\(Y = 50.5 + 0.294x + \epsilon\)</span></p>
 <p>As we can see, the data for Italy has an intercept of approximately <span class="math inline">\(\beta_0 = 50.5\)</span> and an <code>lrscale</code> coefficient of <span class="math inline">\(\beta_1 = 0.294\)</span>. In a linear regression, the intercept is used to indicate the expected value of the dependent variable <code>lrscale</code> at <code>agea</code> = 0. Since <code>agea</code> is never null in our data set, we conclude that the intercept is not a meaningful value for our analysis. The coefficient <span class="math inline">\(\beta_1 = 0.294\)</span>, however, indicates that there is a positive correlation between age and left-to-right political index in Italy, albeit small. Specifically, for each one-unit increase in <code>agea</code>, there will be an increase of 0.294 in the value of <code>lrscale</code>. Indeed, age is correlated with being more right-wing in Italy, although weakly.</p>
 <p>The p-value associated with this regression is <span class="math inline">\(p = 0.095\)</span>. If we were to choose a statistical level of significance of <span class="math inline">\(\alpha = 0.05\)</span>, and <span class="math inline">\(\alpha = 0.1\)</span>, this would mean that our results would be statistically (highly) significant in the context of our study. However, this would not be true if <span class="math inline">\(\alpha = 0.01\)</span>.</p>
 <h3>
@@ -1864,7 +1864,7 @@ R2 Adj.
 Description of Regression findings
 </h3>
 <p>Line of best fit for the UNITED KINGDOM:</p>
-<p><span class="math inline">\(Y\)</span> = 45.45 + 2.118<span class="math inline">\(X\)</span></p>
+<p><span class="math inline">\(Y = 45.45 + 2.118x + \epsilon\)</span></p>
 <p>As we can see, the data for the UK has an intercept of approximately <span class="math inline">\(\beta_0\)</span> = 45.45 and an <code>lrscale</code> coefficient of <span class="math inline">\(\beta_1\)</span> = 2.118.Since <code>agea</code> is never null in our data set, we conclude that this intercept is not a meaningful value for our analysis. The coefficient <span class="math inline">\(\beta_1\)</span> = 2.118, however, indicates that there is a positive correlation between age and left-to-right political index in UK, bigger than Italy, thus confirming our visual analysis. Specifically, for each one-unit increase in <code>agea</code>, there will be an increase of 2.118 in the value of <code>lrscale</code>. Indeed, age is correlated with being more right-wing in UK, quite positively.</p>
 <p>The p-value associated with this regression is <span class="math inline">\(p &lt; 0.001\)</span>. This means that the p-value for this regression is extremely small. If we were to choose a statistical level of significance of <span class="math inline">\(\alpha = 0.05\)</span>, <span class="math inline">\(\alpha = 0.1\)</span>, or <span class="math inline">\(\alpha = 0.01\)</span> this would mean that our results would be statistically (highly) significant in the context of our study.</p>
 <p><strong>Now, let’s visualize the linear regressions on the graph we displayed earlier:</strong></p>
@@ -1879,7 +1879,7 @@ Description of Regression findings
 <h3>
 Causality and confounders
 </h3>
-<p>The computed linear regressions show that there is a relationship between age and political ideology in the survey. But does this <em>actually</em> imply causality between the two?</p>
+<p>The computed linear regressions and plots show that there is a relationship between age and political ideology in the survey. But does this <em>actually</em> imply causality between the two?</p>
 <p>Political Ideology is a very volatile variable to assess. In fact,</p>
 <h2>
 Conclusions
