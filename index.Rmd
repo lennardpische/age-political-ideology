@@ -6,14 +6,26 @@ output:
   distill::distill_article:
     self_contained: false
 ---
-<h2>Introduction</h2>
+<h2>Index</h2>
+
+<a href="#one">Introduction</a><br>
+<a href="#two">Data Source</a><br>
+<a href="#three">Data Analysis</a><br>
+<a href="#four">Methodology</a><br>
+<a href="#five">Possible Conclusions</a><br>
+<a href="#six">Implementation and Results</a><br>
+<a href="#seven">Linear Regressions</a><br>
+<a href="#eight">Conclusion</a><br>
+<a href="#nine">Works Cited</a><br>
+
+<h2 id="one">Introduction</h2>
 
 Recent electoral results throughout Europe have brought to power a wide variety of political parties, each with different aims and policies to be introduced once in a position of authority. Just recently, some European countries have undergone events that steered the political spectrum of most of the population to the right, thus allowing right-wing governments to come to power. For example, the United Kingdom underwent (as the rest of the world) a great economic crisis in 2008-2009, and a consecutive shift to a right wing government in 2010. <a href="#footnote-1">(1)</a> Italy, more recently, was deeply affected by the COVID-19 pandemic, after which a right-wing government was elected in 2022.<a href="#footnote-2">(2)</a> Although they happened at different times, they are examples of how a deeply affecting event can turn the political cards of a country.
 
 The present study attempts to assess these shifts in power, focusing on the effect that age has on one's political ideology in Europe. I first look at the overall effect that age has on political ideology, then turn to specific country examples to understand the differences between countries whose right-wing governments have more recently settled and those whose right-wing governments have been in power for a longer period of time. 
 
 
-<h2>Data source</h2>
+<h2 id="two">Data source</h2>
 
 _**Premise**: The data has been downloaded from the ESS Official Website and then resized to accommodate the needs of this project. That is, a sizeable portion of the unnecessary data has been cut from the original CSV file. Although this has been done, that data is not relevant to this project, as I aim to analyze different variables._
 
@@ -21,7 +33,7 @@ _**Premise**: The data has been downloaded from the ESS Official Website and the
 
 The European Social Survey (ESS) is a biannual survey conducted throughout various countries of the European Union that measures _changing public attitudes and values within Europe_, advances and consolidates _improved methods of cross-national survey measurement in Europe_  and develops _a series of European social indicators, including attitudinal indicators._ It is conducted as a one-hour long face-to-face interview, although the data I collected refers to the 2020-22 time period and was partially collected online due to the COVID-19 pandemic. (The content in italics has been quoted from the original data set source). In my project, I will exploit the publicly available data of this survey.
 
-<h2>Data Analysis</h2>
+<h2 id="three">Data Analysis</h2>
 
   My research question is: _How does age affect people's voting ideology across European Countries?_
   
@@ -33,7 +45,7 @@ The European Social Survey (ESS) is a biannual survey conducted throughout vario
   
   The value of `agea` is given by the candidate at the time of the interview. The value of `lrscale` is given by the candidates as well, after asking them the following question: _In politics people sometimes talk of 'left' and 'right'. Using this card, where would you place yourself on this scale, where 0 means the left and 10 means the right?_. Thus, the method utilized for both variables is a survey, and the survey is a cross-sectional observational study.
   
-<h2>Methodology</h2>
+<h2 id="four">Methodology</h2>
 
   The European Social Survey measures a number of social well-being indexes throughout Europe in a prolonged period of time. 
   
@@ -41,13 +53,13 @@ The European Social Survey (ESS) is a biannual survey conducted throughout vario
       
   To analyze the data I have, I will assume that the respondents under 18 years old were able to form politically valuable opinions that firmly positioned them on the left-to-right index although not yet being able to vote.
 
-<h2>Possible Conclusions</h2>
+<h2 id="five">Possible Conclusions</h2>
 
    If I observe higher values of `lrscale` for older ages (i.e. for higher values of `agea`), this will confirm my hypothesis; that is, on average, older respondents tend to position themselves as more right-wing. If I observe lower values of `lrscale` for higher values of `agea`, then my hypothesis would be rejected; that is, on average, older respondents tend to position themselves as more left-wing.
       
  A linear regression that supports my hypothesis would have a positive coefficient between `agea` and `lrscale`. If it were negative, it would be a linear regression that rejected my hypothesis.
 
-<h2>Implementation and Results</h2>
+<h2 id="six">Implementation and Results</h2>
 
 <h3>Reading data</h3>
 ```{r}
@@ -115,7 +127,7 @@ The results of this analysis show that there is stronger correlation between age
 
 To successfully understand if there is causality between the two values in the UK and Italy, I need to run a linear regression of the values for both countries. To do that, I will first subset the data to two separate data frames and then compute their regression. This linear regression will be run between `agea` and `lrscale`, but will also be applied to the barplot (this specification is necessary because I am **not** able to compute a linear regression between `age_groups`, a categorical variable, and `lrscale`, a numeric one, but running the linear regression with `agea` stems the desired results).
 
-<h2> Linear Regressions </h2>
+<h2 id="seven"> Linear Regressions </h2>
 
 Before subsetting the data, it's important to remind that the simple linear regressions for this data produce a line of best fit that has the following form:
 
@@ -346,7 +358,7 @@ ggplot(data_uk_multiple, aes(x = hhmmb, y = agea)) +
 
 
 
-<h2>Conclusions</h2>
+<h2 id="eight">Conclusions</h2>
 
 This project aimed to analyze the relationship between age and political ideology in Europe, focusing on two countries that have recently undergone relevant, drastic changes in their political systems, Italy and the United Kingdom. The analysis of the data showed that, while there is a positive correlation between age and the political ideology index in the latest version of the European Social Survey (ESS), it is not causal due to the presence of multiple confounders, among which there are the respondents' education level and number of children in their household. Thus, my hypothesis is not proved fully. 
 
@@ -365,7 +377,7 @@ An observation that is relevant in the context of this study can be made regardi
 This indicates that there is quite a large difference between the two samples. Thus, the UK data might not be as accurate as the one from Italy.
 
 
-<h2>Works Cited</h2>
+<h2 id="nine">Works Cited</h2>
 
 <p><strong>Data Source</strong>: European Social Survey (ESS) EDITION 10 - 2020 https://ess.sikt.no/en/study/172ac431-2a06-41df-9dab-c1fd8f3877e7 </p>
 
@@ -373,5 +385,5 @@ This indicates that there is quite a large difference between the two samples. T
   
 <p id="footnote-2">(2) Estimated percentage of votes won in the chamber of deputies and senate in the Italian general election of 2022, by coalition. Statista, 2022. <a href="https://www.statista.com/statistics/1335834/italy-election-results/">Link.</a></p>
 
-_This project has been completed on Wednesday, December 13th. It is the final assignment of the Harvard University undergraduate course **GOV 50: Data Science for the Social Sciences** for the Fall 2023 Semester._
+_This project has been completed on Wednesday, December 13th, 2023. It is the final assignment of the Harvard University undergraduate course **GOV 50: Data Science for the Social Sciences** for the Fall 2023 Semester._
 
