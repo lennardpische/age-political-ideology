@@ -113,7 +113,7 @@ plot_it_gb <- data_italy_GB |>
 plot_it_gb
 ```
 <h3>Description of findings - v.2</h3>
-In these two graphs, I analyze the difference in the relationship between the age groups and the lef-to-right political indexes in Italy and the United Kingdom. 
+In these two graphs, I analyze the difference in the relationship between the age groups and the left-to-right political indexes in Italy and the United Kingdom. 
 
 The results of this analysis show that there is stronger correlation between age and political ideology in the United Kingdom than there is in Italy. That is, in the UK, as survey respondents get older, their political ideology tends to steer to the right, as indicated by the rise in the `lrscale` index. Italy's graph, on the other hand, shows that there is a very weak correlation between age and voting ideology: although the 60-75 age group has a higher `lrscale` value, this decreases for the 75+ group, so I can't assume causality here. 
 
@@ -198,9 +198,67 @@ labs(fill = "Country")
 
 The computed linear regressions and plots show that there is a relationship between age and political ideology in the survey. But does this _actually_ imply causality between the two?
 
-Political Ideology is a very volatile variable to assess. In fact, 
+Political Ideology is a very volatile variable to assess. In fact, the value that each survey respondent indicates can vary based on a number of facts, and not only their age. 
 
+Possible confounders are variables that are associated with both the independent variable (`agea`) and the dependent variable (`lrscale`). The presence of confounders can affect our analysis of causality.
 
+I can can identify multiple confounders in this research. For the purpose of this project, I will focus on one, which is readily available in the data set: 
+
+**edulvlb**: Highest Level of Education obtained. Possible values are 0 (did not complete primary education), 113, 129, 212, 213, 221, 222, 223, 229, 311, 312, 313, 313, 321, 322, 323, 412, 413, 421, 422, 423, 510, 520, 610, 620, 710, 720, 800, 5555 (other). Thus, the higher the value of  `edulvlb`, the higher the level of education obtained. In my analysis, I will exclude the value 5555, as it is not needed for the purpose of this project. 
+
+This variable represents a confounder because educational background often affects political ideology and educational opportunities vary greatly among different generations (and thus differently-aged people will have had different levels of education).
+
+To accurately assess causality, we can compute a multiple regression, this time with the confounder as the of the independent variable and `agea` and `lrscale` as the dependent variables, as to verify that education level is indeed a confounder.
+
+Thus:
+
+<h3>Subsetting Data</h3>
+
+```{r}
+data_italy_multiple <- data_italy |>
+  filter(edulvlb != 5555)
+
+data_uk_multiple <- data_uk |>
+  filter(edulvlb != 5555)
+```
+
+<h3>Computing Linear Regressions</h3>
+```{r}
+MLR_it <- lm(edulvlb ~ agea + lrscale, data = data_italy_multiple)
+MLR_uk <- lm(edulvlb ~ agea + lrscale, data = data_uk_multiple)
+
+```
+
+<h3>Multiple Linear Regression for Italy</h3>
+```{r}
+varnames1 <- c("(Intercept)" = "Intercept",
+               "lrscale" = "Left-to-Right Political Index",
+               "agea" = "Age of Respondent")
+
+modelsummary::modelsummary(list(`Multiple Regression for Italy`= MLR_it), 
+                           
+                           statistic = c("s.e. = {std.error}",
+                                         "p = {p.value}"),
+                           gof_map = c("nobs", "r.squared", "adj.r.squared"), coef_map = varnames1)
+
+```
+
+<h3>Multiple Linear Regression for the UK</h3>
+```{r}
+varnames1 <- c("(Intercept)" = "Intercept",
+               "lrscale" = "Left-to-Right Political Index",
+               "agea" = "Age of Respondent")
+
+modelsummary::modelsummary(list(`Multiple Regression for the United Kingdom`= MLR_uk), 
+                           
+                           statistic = c("s.e. = {std.error}",
+                                         "p = {p.value}"),
+                           gof_map = c("nobs", "r.squared", "adj.r.squared"), coef_map = varnames1)
+```
+
+It is clear that in both cases the education level has a great impact on both `agea` and `lrscale`. Thus, we can confirm it is a confounder. As a consequence, we cannot assume causality solely between age and political ideology, both other variables need to be analyzed (possibly, all confounders) to properly assess causality.
+
+Also comment on sample sizes for both types of regressions.
 
 <h2>Conclusions</h2>
 

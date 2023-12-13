@@ -1637,7 +1637,7 @@ Computing visualization of Italy’s and the UK’s age to left-to-right index r
 <h3>
 Description of findings - v.2
 </h3>
-<p>In these two graphs, I analyze the difference in the relationship between the age groups and the lef-to-right political indexes in Italy and the United Kingdom.</p>
+<p>In these two graphs, I analyze the difference in the relationship between the age groups and the left-to-right political indexes in Italy and the United Kingdom.</p>
 <p>The results of this analysis show that there is stronger correlation between age and political ideology in the United Kingdom than there is in Italy. That is, in the UK, as survey respondents get older, their political ideology tends to steer to the right, as indicated by the rise in the <code>lrscale</code> index. Italy’s graph, on the other hand, shows that there is a very weak correlation between age and voting ideology: although the 60-75 age group has a higher <code>lrscale</code> value, this decreases for the 75+ group, so I can’t assume causality here.</p>
 <p>To successfully understand if there is causality between the two values in the UK and Italy, I need to run a linear regression of the values for both countries. To do that, I will first subset the data to two separate data frames and then compute their regression. This linear regression will be run between <code>agea</code> and <code>lrscale</code>, but will also be applied to the barplot (this specification is necessary because I am <strong>not</strong> able to compute a linear regression between <code>age_groups</code>, a categorical variable, and <code>lrscale</code>, a numeric one, but running the linear regression with <code>agea</code> stems the desired results).</p>
 <h2>
@@ -1880,7 +1880,274 @@ Description of Regression findings
 Causality and confounders
 </h3>
 <p>The computed linear regressions and plots show that there is a relationship between age and political ideology in the survey. But does this <em>actually</em> imply causality between the two?</p>
-<p>Political Ideology is a very volatile variable to assess. In fact,</p>
+<p>Political Ideology is a very volatile variable to assess. In fact, the value that each survey respondent indicates can vary based on a number of facts, and not only their age.</p>
+<p>Possible confounders are variables that are associated with both the independent variable (<code>agea</code>) and the dependent variable (<code>lrscale</code>). The presence of confounders can affect our analysis of causality.</p>
+<p>I can can identify multiple confounders in this research. For the purpose of this project, I will focus on one, which is readily available in the data set:</p>
+<p><strong>edulvlb</strong>: Highest Level of Education obtained. Possible values are 0 (did not complete primary education), 113, 129, 212, 213, 221, 222, 223, 229, 311, 312, 313, 313, 321, 322, 323, 412, 413, 421, 422, 423, 510, 520, 610, 620, 710, 720, 800, 5555 (other). Thus, the higher the value of <code>edulvlb</code>, the higher the level of education obtained. In my analysis, I will exclude the value 5555, as it is not needed for the purpose of this project.</p>
+<p>This variable represents a confounder because educational background often affects political ideology and educational opportunities vary greatly among different generations (and thus differently-aged people will have had different levels of education).</p>
+<p>To accurately assess causality, we can compute a multiple regression, this time with the confounder as the of the independent variable and <code>agea</code> and <code>lrscale</code> as the dependent variables, as to verify that education level is indeed a confounder.</p>
+<p>Thus:</p>
+<h3>
+Subsetting Data
+</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>data_italy_multiple</span> <span class='op'>&lt;-</span> <span class='va'>data_italy</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>edulvlb</span> <span class='op'>!=</span> <span class='fl'>5555</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>data_uk_multiple</span> <span class='op'>&lt;-</span> <span class='va'>data_uk</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>edulvlb</span> <span class='op'>!=</span> <span class='fl'>5555</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<h3>
+Computing Linear Regressions
+</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>MLR_it</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>edulvlb</span> <span class='op'>~</span> <span class='va'>agea</span> <span class='op'>+</span> <span class='va'>lrscale</span>, data <span class='op'>=</span> <span class='va'>data_italy_multiple</span><span class='op'>)</span></span>
+<span><span class='va'>MLR_uk</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>edulvlb</span> <span class='op'>~</span> <span class='va'>agea</span> <span class='op'>+</span> <span class='va'>lrscale</span>, data <span class='op'>=</span> <span class='va'>data_uk_multiple</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<h3>
+Multiple Linear Regression for Italy
+</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>varnames1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"(Intercept)"</span> <span class='op'>=</span> <span class='st'>"Intercept"</span>,</span>
+<span>               <span class='st'>"lrscale"</span> <span class='op'>=</span> <span class='st'>"Left-to-Right Political Index"</span>,</span>
+<span>               <span class='st'>"agea"</span> <span class='op'>=</span> <span class='st'>"Age of Respondent"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'>modelsummary</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/modelsummary/man/modelsummary.html'>modelsummary</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>`Multiple Regression for Italy`<span class='op'>=</span> <span class='va'>MLR_it</span><span class='op'>)</span>, </span>
+<span>                           </span>
+<span>                           statistic <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"s.e. = {std.error}"</span>,</span>
+<span>                                         <span class='st'>"p = {p.value}"</span><span class='op'>)</span>,</span>
+<span>                           gof_map <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"nobs"</span>, <span class='st'>"r.squared"</span>, <span class='st'>"adj.r.squared"</span><span class='op'>)</span>, coef_map <span class='op'>=</span> <span class='va'>varnames1</span><span class='op'>)</span></span></code></pre>
+</div>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:center;">
+ Multiple Regression for Italy
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Intercept
+</td>
+<td style="text-align:center;">
+538.717
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+s.e. = 55.959
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+p = &lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Left-to-Right Political Index
+</td>
+<td style="text-align:center;">
+−2.742
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+s.e. = 6.472
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+p = 0.672
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Age of Respondent
+</td>
+<td style="text-align:center;">
+−2.235
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+s.e. = 0.839
+</td>
+</tr>
+<tr>
+<td style="text-align:left;box-shadow: 0px 1.5px">
+</td>
+<td style="text-align:center;box-shadow: 0px 1.5px">
+p = 0.008
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Num.Obs.
+</td>
+<td style="text-align:center;">
+1925
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R2
+</td>
+<td style="text-align:center;">
+0.004
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R2 Adj.
+</td>
+<td style="text-align:center;">
+0.003
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3>
+Multiple Linear Regression for the UK
+</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>varnames1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"(Intercept)"</span> <span class='op'>=</span> <span class='st'>"Intercept"</span>,</span>
+<span>               <span class='st'>"lrscale"</span> <span class='op'>=</span> <span class='st'>"Left-to-Right Political Index"</span>,</span>
+<span>               <span class='st'>"agea"</span> <span class='op'>=</span> <span class='st'>"Age of Respondent"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'>modelsummary</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/modelsummary/man/modelsummary.html'>modelsummary</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>`Multiple Regression for the United Kingdom`<span class='op'>=</span> <span class='va'>MLR_uk</span><span class='op'>)</span>, </span>
+<span>                           </span>
+<span>                           statistic <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"s.e. = {std.error}"</span>,</span>
+<span>                                         <span class='st'>"p = {p.value}"</span><span class='op'>)</span>,</span>
+<span>                           gof_map <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"nobs"</span>, <span class='st'>"r.squared"</span>, <span class='st'>"adj.r.squared"</span><span class='op'>)</span>, coef_map <span class='op'>=</span> <span class='va'>varnames1</span><span class='op'>)</span></span></code></pre>
+</div>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:center;">
+Multiple Regression for the United Kingdom
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Intercept
+</td>
+<td style="text-align:center;">
+509.125
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+s.e. = 106.363
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+p = &lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Left-to-Right Political Index
+</td>
+<td style="text-align:center;">
+−25.361
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+s.e. = 14.059
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+p = 0.072
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Age of Respondent
+</td>
+<td style="text-align:center;">
+2.781
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+s.e. = 1.689
+</td>
+</tr>
+<tr>
+<td style="text-align:left;box-shadow: 0px 1.5px">
+</td>
+<td style="text-align:center;box-shadow: 0px 1.5px">
+p = 0.100
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Num.Obs.
+</td>
+<td style="text-align:center;">
+1063
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R2
+</td>
+<td style="text-align:center;">
+0.004
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R2 Adj.
+</td>
+<td style="text-align:center;">
+0.003
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>It is clear that in both cases the education level has a great impact on both <code>agea</code> and <code>lrscale</code>. Thus, we can confirm it is a confounder. As a consequence, we cannot assume causality solely between age and political ideology, both other variables need to be analyzed (possibly, all confounders) to properly assess causality.</p>
+<p>Also comment on sample sizes for both types of regressions.</p>
 <h2>
 Conclusions
 </h2>
