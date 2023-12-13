@@ -121,9 +121,9 @@ To successfully understand if there is causality between the two values in the U
 
 <h2> Linear Regressions </h2>
 
-Before subsetting the data, it's important to remind that the singular linear regressions for this data produce a line of best fit that has the following form:
+Before subsetting the data, it's important to remind that the simple linear regressions for this data produce a line of best fit that has the following form:
 
-$Y = \beta_0 + \beta_1 X$
+$Y = \beta_0 + \beta_1 X + \epsilon$
 
 <h3>Subsetting data</h3>
 ```{r}
@@ -159,7 +159,7 @@ modelsummary::modelsummary(list(`Regression for Italy`= LR_it),
 
 Line of best fit for ITALY:
 
-$Y = 50.5 + 0.294X$
+$Y = 50.5 + 0.294x + \epsilon$
 
 As we can see, the data for Italy has an intercept of approximately $\beta_0 = 50.5$ and an `lrscale` coefficient of $\beta_1 = 0.294$. In a linear regression, the intercept is used to indicate the expected value of the dependent variable `lrscale` at `agea` = 0. Since `agea` is never null in our data set, we conclude that the intercept is not a meaningful value for our analysis. The coefficient $\beta_1 = 0.294$, however, indicates that there is a positive correlation between age and left-to-right political index in Italy, albeit small. Specifically, for each one-unit increase in `agea`, there will be an increase of 0.294 in the value of `lrscale`. Indeed, age is correlated with being more right-wing in Italy, although weakly.
 
@@ -178,7 +178,7 @@ modelsummary::modelsummary(list(`Regression for the UK`= LR_uk),
 
 Line of best fit for the UNITED KINGDOM:
 
-$Y$ = 45.45 + 2.118$X$
+$Y = 45.45 + 2.118x + \epsilon$
 
 As we can see, the data for the UK has an intercept of approximately $\beta_0$ = 45.45 and an `lrscale` coefficient of $\beta_1$ = 2.118.Since `agea` is never null in our data set, we conclude that this intercept is not a meaningful value for our analysis. The coefficient $\beta_1$ = 2.118, however, indicates that there is a positive correlation between age and left-to-right political index in UK, bigger than Italy, thus confirming our visual analysis. Specifically, for each one-unit increase in `agea`, there will be an increase of 2.118 in the value of `lrscale`. Indeed, age is correlated with being more right-wing in UK, quite positively.
 
