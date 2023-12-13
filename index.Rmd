@@ -47,10 +47,6 @@ The European Social Survey (ESS) is a biannual survey conducted throughout vario
       
  A linear regression that supports my hypothesis would have a positive coefficient between `agea` and `lrscale`. If it were negative, it would be a linear regression that rejected my hypothesis.
 
-  <p id="footnote-1">(1) Allen, Grahame. Recession and Recovery, 2010. House of Commons Library Research. <a href="https://www.parliament.uk/globalassets/documents/commons/lib/research/key_issues/key-issues-recession-and-recovery.pdf"> Link. </a></p>
-  
-<p id="footnote-2">(2) Estimated percentage of votes won in the chamber of deputies and senate in the Italian general election of 2022, by coalition. Statista, 2022. <a href="https://www.statista.com/statistics/1335834/italy-election-results/">Link.</a></p>
-
 <h2>Implementation and Results</h2>
 
 <h3>Reading data</h3>
@@ -123,7 +119,9 @@ To successfully understand if there is causality between the two values in the U
 
 Before subsetting the data, it's important to remind that the simple linear regressions for this data produce a line of best fit that has the following form:
 
-$Y = \beta_0 + \beta_1 X + \epsilon$
+$Y = \beta_0 + \beta_1 X + \epsilon$ where: 
+
+$Y$ is the dependent variable (the variable being predicted); $\beta_0$ is the intercept (the value of $Y$ when $X$ is 0); $\beta_1$ is the slope coefficient (it represents the change in $Y$ for a one-unit change in $X$); $X$ is the independent variable (the predictor); $\epsilon$ is the error term.
 
 <h3>Subsetting data</h3>
 ```{r}
@@ -135,7 +133,7 @@ data_uk <- data_all |>
 ```
 
 
-<h3>Computing Linear Regressions</h3>
+<h3>Computing Single-Variable Linear Regressions</h3>
 ```{r}
 
 LR_it <- lm(agea ~ lrscale, data = data_italy)
@@ -143,7 +141,7 @@ LR_uk <- lm(agea ~ lrscale, data = data_uk)
 
 ```
 
-<h3>Linear Regression for Italy</h3>
+<h3>Single Linear Regression for Italy</h3>
 ```{r}
 varnames1 <- c("(Intercept)" = "Intercept",
                "lrscale" = "Left-to-Right Political Index")
@@ -161,12 +159,12 @@ Line of best fit for ITALY:
 
 $Y = 50.5 + 0.294x + \epsilon$
 
-As we can see, the data for Italy has an intercept of approximately $\beta_0 = 50.5$ and an `lrscale` coefficient of $\beta_1 = 0.294$. In a linear regression, the intercept is used to indicate the expected value of the dependent variable `lrscale` at `agea` = 0. Since `agea` is never null in our data set, we conclude that the intercept is not a meaningful value for our analysis. The coefficient $\beta_1 = 0.294$, however, indicates that there is a positive correlation between age and left-to-right political index in Italy, albeit small. Specifically, for each one-unit increase in `agea`, there will be an increase of 0.294 in the value of `lrscale`. Indeed, age is correlated with being more right-wing in Italy, although weakly.
+As we can see, the data for Italy has an intercept of approximately $\beta_0 = 50.5$ and an `lrscale` coefficient of $\beta_1 = 0.294$. In a linear regression, the intercept is used to indicate the expected value of the dependent variable `agea` at `lrscale` = 0. Therefore, the age at which the least conservative ideology occurs in Italy is approximately 50 years old. The coefficient $\beta_1 = 0.294$, however, indicates that there is a positive correlation between age and left-to-right political index in Italy, albeit small. Specifically, for each one-unit increase in `lrscale`, there will be an increase of 0.294 in the value of `agea`. Indeed, age is correlated with being more right-wing in Italy, although weakly.
 
-The p-value associated with this regression is $p = 0.095$. If we were to choose a statistical level of significance of $\alpha = 0.05$, and $\alpha = 0.1$, this would mean that our results would be statistically (highly) significant in the context of our study. However, this would not be true if $\alpha = 0.01$.
+The p-value associated with this regression is $p = 0.095$. If we were to choose a statistical level of significance of $\alpha = 0.1$, this would mean that our results would be (marginally) statistically significant in the context of our study. However, this would not be true if $\alpha = 0.01$ or $\alpha = 0.05$,
 
 
-<h3>Linear Regression for the UK</h3>
+<h3>Single Linear Regression for the UK</h3>
 ```{r}
 
 modelsummary::modelsummary(list(`Regression for the UK`= LR_uk),
@@ -180,7 +178,7 @@ Line of best fit for the UNITED KINGDOM:
 
 $Y = 45.45 + 2.118x + \epsilon$
 
-As we can see, the data for the UK has an intercept of approximately $\beta_0$ = 45.45 and an `lrscale` coefficient of $\beta_1$ = 2.118.Since `agea` is never null in our data set, we conclude that this intercept is not a meaningful value for our analysis. The coefficient $\beta_1$ = 2.118, however, indicates that there is a positive correlation between age and left-to-right political index in UK, bigger than Italy, thus confirming our visual analysis. Specifically, for each one-unit increase in `agea`, there will be an increase of 2.118 in the value of `lrscale`. Indeed, age is correlated with being more right-wing in UK, quite positively.
+As we can see, the data for the UK has an intercept of approximately $\beta_0$ = 45.45 and an `lrscale` coefficient of $\beta_1$ = 2.118. Therefore, the age at which the least conservative ideology occurs in Italy is approximately 45 years old. The coefficient $\beta_1$ = 2.118, however, indicates that there is a positive correlation between age and left-to-right political index in UK, bigger than Italy, thus confirming our visual analysis. Specifically, for each one-unit increase in `lrscale`, there will be an average increase of 2.118 in the value of `agea`. Indeed, age is correlated with being more right-wing in UK, quite positively.
 
 The p-value associated with this regression is $p < 0.001$. This means that the p-value for this regression is extremely small. If we were to choose a statistical level of significance of $\alpha = 0.05$, $\alpha = 0.1$, or $\alpha = 0.01$ this would mean that our results would be statistically (highly) significant in the context of our study.
 
@@ -194,46 +192,58 @@ labs(fill = "Country")
 ```
 
 
-<h3>Causality and confounders</h3>
+<h3>Causality, Confounders, and Limitations</h3>
 
-The computed linear regressions and plots show that there is a relationship between age and political ideology in the survey. But does this _actually_ imply causality between the two?
+The computed linear regressions and plots show that there is a relationship between age and political ideology in the survey. But does this **_actually_** imply causality between the two?
 
 Political Ideology is a very volatile variable to assess. In fact, the value that each survey respondent indicates can vary based on a number of facts, and not only their age. 
 
 Possible confounders are variables that are associated with both the independent variable (`agea`) and the dependent variable (`lrscale`). The presence of confounders can affect our analysis of causality.
 
-I can can identify multiple confounders in this research. For the purpose of this project, I will focus on one, which is readily available in the data set: 
+I can can identify multiple confounders in this research. For the purpose of this project, I will focus on two, which are readily available in the data set: 
 
 **edulvlb**: Highest Level of Education obtained. Possible values are 0 (did not complete primary education), 113, 129, 212, 213, 221, 222, 223, 229, 311, 312, 313, 313, 321, 322, 323, 412, 413, 421, 422, 423, 510, 520, 610, 620, 710, 720, 800, 5555 (other). Thus, the higher the value of  `edulvlb`, the higher the level of education obtained. In my analysis, I will exclude the value 5555, as it is not needed for the purpose of this project. 
 
 This variable represents a confounder because educational background often affects political ideology and educational opportunities vary greatly among different generations (and thus differently-aged people will have had different levels of education).
 
-To accurately assess causality, we can compute a multiple regression, this time with the confounder as the of the independent variable and `agea` and `lrscale` as the dependent variables, as to verify that education level is indeed a confounder.
+**hhmmb**: Number of people living regularly as member of household. Possible values range from 1 to 11, with 77 and 88 and placeholder values for "No Answer" and "Refusal", which will be excluded from the analysis. 
 
-Thus:
+This is also a confounder as the number of children in the household relates to the age of the respondent (younger people tend to not have kids) and political ideology (people with more children wll favor views that guarantee policies that provide them with incentives as sizeable families).
+
+To accurately assess causality, we can compute a multiple regression.
+
+Before subsetting the data for the regression, it's important to remind that the multiple linear regressions for this data produce a line of best fit that has the following form:
+
+$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2+ \beta_3X_3 +  \epsilon$ where:
+
+$Y$ is the dependent variable (the variable being predicted); $\beta_0$ is the intercept (the value of $Y$ when $X_1$ and $X_2$ are 0); $\beta_1$, $\beta_2$, and $\beta_3$ are the regression coefficients (they represent the change in $Y$ for a one-unit change in $X_1$, $X_2$, and $X_3$); $X1$, $X_2$, $X_3$ are the independent variables (the predictors); $\epsilon$ is the error term, representing unexplained variance in $Y$.
+
 
 <h3>Subsetting Data</h3>
 
 ```{r}
 data_italy_multiple <- data_italy |>
-  filter(edulvlb != 5555)
+  filter(edulvlb < "5555" & hhmmb != "88" & hhmmb !="77")
 
 data_uk_multiple <- data_uk |>
-  filter(edulvlb != 5555)
+  filter(edulvlb < "5555" & hhmmb != "88" & hhmmb !="77")
 ```
 
-<h3>Computing Linear Regressions</h3>
+<h3>Computing Multiple Linear Regressions</h3>
+
 ```{r}
-MLR_it <- lm(edulvlb ~ agea + lrscale, data = data_italy_multiple)
-MLR_uk <- lm(edulvlb ~ agea + lrscale, data = data_uk_multiple)
+MLR_it <- lm(agea ~ lrscale + edulvlb + hhmmb, data = data_italy_multiple)
+MLR_uk <- lm(agea ~ lrscale + edulvlb + hhmmb, data = data_uk_multiple)
 
 ```
 
 <h3>Multiple Linear Regression for Italy</h3>
+
 ```{r}
 varnames1 <- c("(Intercept)" = "Intercept",
                "lrscale" = "Left-to-Right Political Index",
-               "agea" = "Age of Respondent")
+               "edulvlb" = "Education Level",
+               "hhmmb" = "Number of children in household")
 
 modelsummary::modelsummary(list(`Multiple Regression for Italy`= MLR_it), 
                            
@@ -243,11 +253,39 @@ modelsummary::modelsummary(list(`Multiple Regression for Italy`= MLR_it),
 
 ```
 
-<h3>Multiple Linear Regression for the UK</h3>
+<h3>Plotting the regression for Italy</h3>
+
 ```{r}
-varnames1 <- c("(Intercept)" = "Intercept",
-               "lrscale" = "Left-to-Right Political Index",
-               "agea" = "Age of Respondent")
+# Plotting agea vs edulvlb with a regression line
+ggplot(data_italy_multiple, aes(x = edulvlb, y = agea)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x, color = "blue") +
+  labs(title = "Age vs Education Level (IT)",
+       x = "Education Level (edulvlb)",
+       y = "Age (agea)") +
+  theme_minimal()
+
+# Plotting agea vs hhmmb with a regression line
+ggplot(data_italy_multiple, aes(x = hhmmb, y = agea)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x, color = "blue") +
+  labs(title = "Age vs Number of People in Household (IT)",
+       x = "Number of People in Household (hhmmb)",
+       y = "Age (agea)") +
+  theme_minimal()
+```
+<h3>Interpretation of the Multiple Linear Regressions, for Italy </h3>
+
+<ul>
+<li>**Intercept (85.128)**: This is the expected value of `agea` when all the independent variables (`lrscale`, `edulvlb`, and `hhmmb`) are zero. The practical interpretation is substantial, as all independent variables can assume a value of 0, although quite unlikely in the real world. Thus, the average age in Italy of respondents that are very liberal, didn't finish primary education, and do not have children in their household is approximately 85 years old, in Italy.</li>
+<li>**Left-to-Right Political Index (−0.011)**: The coefficient for `lrscale` is -0.011, and its p-value is 0.951, which is not statistically significant at a statistical significance level of $\alpha = 0.05$. This implies that there is no strong evidence of an association between political ideology and age, accounting for education level and number of children in the household.</li>
+<li>**Education Level (−0.057)**: The coefficient for `edulvlb` is -0.057 with a p-value of <0.001, indicating a statistically significant negative association with age at a statistical significance level of $\alpha = 0.05$. This suggests that for each additional unit increase in the education level (the higher their education is), the respondent’s age is expected to decrease by 0.057 years, holding other variables constant (thus, younger people are more educated, on average, in Italy).</li>
+<li>**Number of Children in Household (−6.351)**: The coefficient for `hhmmb` is -6.351 with a p-value of <0.001, suggesting a significant negative relationship with age. This means that for each additional child in the household, the respondent’s age is expected to decrease by approximately 6.351 years, holding other factors constant (thus, younger people have more children in Italy).</li>
+</ul>
+
+<h3>Multiple Linear Regression for the UK</h3>
+
+```{r}
 
 modelsummary::modelsummary(list(`Multiple Regression for the United Kingdom`= MLR_uk), 
                            
@@ -256,16 +294,66 @@ modelsummary::modelsummary(list(`Multiple Regression for the United Kingdom`= ML
                            gof_map = c("nobs", "r.squared", "adj.r.squared"), coef_map = varnames1)
 ```
 
-It is clear that in both cases the education level has a great impact on both `agea` and `lrscale`. Thus, we can confirm it is a confounder. As a consequence, we cannot assume causality solely between age and political ideology, both other variables need to be analyzed (possibly, all confounders) to properly assess causality.
+<h3>Plotting the regression for the UK</h3>
 
-Also comment on sample sizes for both types of regressions.
+```{r}
+# Plotting agea vs edulvlb with a regression line
+ggplot(data_uk_multiple, aes(x = edulvlb, y = agea)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x, color = "blue") +
+  labs(title = "Age vs Education Level (UK)",
+       x = "Education Level (edulvlb)",
+       y = "Age (agea)") +
+  theme_minimal()
+
+# Plotting agea vs hhmmb with a regression line
+ggplot(data_uk_multiple, aes(x = hhmmb, y = agea)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x, color = "blue") +
+  labs(title = "Age vs Number of People in Household (UK)",
+       x = "Number of People in Household (hhmmb)",
+       y = "Age (agea)") +
+  theme_minimal()
+```
+
+<h3>Interpretation of the Multiple Linear Regressions, for the United Kingdom </h3>
+
+<ul>
+<li>**Intercept (58.565)**: This shows that the average age in the UK of respondents that are very liberal, didn't finish primary education, and do not have children in their household is approximately 59 years old.</li>
+<li>**Left-to-Right Political Index (1.998)**: The coefficient for `lrscale` is 1.998, and its p-value is $p<0.001$, which indicates a statistically significant positive correlation at a statistical significance level of $\alpha = 0.05$ and other statistical significance levels. This implies that there is strong evidence of an association between political ideology and age, accounting for education level and number of children in the household, in the UK.</li>
+<li>**Education Level (0.001)**: The coefficient for `edulvlb` is 0.001 with a p-value of 0.067, indicating a non-statistically significant and rather weak, positive association with age at a statistical significance level of $\alpha = 0.05$. This suggests that for each additional unit increase in the education level (the higher their education is), the respondent’s age is expected to decrease by 0.001 years, holding other variables constant (thus, older people are more educated, on average, in the UK). Because this is a very weak relationship and it is **not** statistically significant, we can't assume causality.</li>
+<li>**Number of Children in Household (−6.288)**: The coefficient for `hhmmb` is -6.288 with a p-value of <0.001, suggesting a significant negative relationship with age. This means that for each additional child in the household, the respondent’s age is expected to decrease by approximately 6.288 years, holding other factors constant (thus, younger people have more children in the UK).</li>
+</ul>
+
+
+
 
 <h2>Conclusions</h2>
 
+This project aimed to analyze the relationship between age and political ideology in Europe, focusing on two countries that have recently undergone relevant, drastic changes in their political systems, Italy and the United Kingdom. The analysis of the data showed that, while there is a positive correlation between age and the political ideology index in the latest version of the European Social Survey (ESS), it is not causal due to the presence of multiple confounders, among which there are the respondents' education level and number of children in their household. Thus, my hypothesis is not proved fully. 
+
+More analysis is needed, perhaps focusing on all possible confounders. However, this can prove difficult as political ideology is extremely difficult to comprehensively analyze causally, if not impossible. If provided with the needed resources, I could expand my project as to include (1) more editions of the ESS, and (2) include as many confounders as possible in my research.
+
+<h3>Limitations</h3>
+
+An observation that is relevant in the context of this study can be made regarding the sample sizes of this analysis. As can be seen in the linear regression tables, the sample sizes for Italy and the UK are different. Specifically:
+
+<ul>
+<li>In the simple regression, the sample size for Italy is _1928_. In the multiple regression, it is _1925_.</li>
+<li>In the simple regression, the sample size for the UK is _1070_. In the multiple regression, it is _1063_.</li>
+</ul>
+
+
+This indicates that there is quite a large difference between the two samples. Thus, the UK data might not be as accurate as the one from Italy.
 
 
 <h2>Works Cited</h2>
-**Data Source**: European Social Survey (ESS) EDITION 10 - 2020 - https://ess.sikt.no/en/study/172ac431-2a06-41df-9dab-c1fd8f3877e7 
 
+<p><strong>Data Source</strong>: European Social Survey (ESS) EDITION 10 - 2020 https://ess.sikt.no/en/study/172ac431-2a06-41df-9dab-c1fd8f3877e7 </p>
 
+  <p id="footnote-1">(1) Allen, Grahame. Recession and Recovery, 2010. House of Commons Library Research. <a href="https://www.parliament.uk/globalassets/documents/commons/lib/research/key_issues/key-issues-recession-and-recovery.pdf"> Link. </a></p>
+  
+<p id="footnote-2">(2) Estimated percentage of votes won in the chamber of deputies and senate in the Italian general election of 2022, by coalition. Statista, 2022. <a href="https://www.statista.com/statistics/1335834/italy-election-results/">Link.</a></p>
+
+_This project has been completed on Wednesday, December 13th. It is the final assignment of the Harvard University undergraduate course **GOV 50: Data Science for the Social Sciences** for the Fall 2023 Semester._
 
