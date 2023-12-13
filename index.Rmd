@@ -13,15 +13,17 @@ _**Premise**: The data has been downloaded from the ESS Official Website and the
 
 **Data Source**: European Social Survey (ESS) EDITION 10 - 2020 - https://ess.sikt.no/en/study/172ac431-2a06-41df-9dab-c1fd8f3877e7 
 
-The European Social Survey (ESS) is a biannual survey conducted throughout various countries of the European Union that measures _changing public attitudes and values within Europe_, advances and consolidates _improved methods of cross-national survey measurement in Europe_  and develops _a series of European social indicators, including attitudinal indicators._ It is conducted as a one-hour long face-to-face interview, although the data I collected refers to the 2020-22 time period and was partially collected online due to the COVID-19 pandemic. This content has been quoted from the original dataset source.
+The European Social Survey (ESS) is a biannual survey conducted throughout various countries of the European Union that measures _changing public attitudes and values within Europe_, advances and consolidates _improved methods of cross-national survey measurement in Europe_  and develops _a series of European social indicators, including attitudinal indicators._ It is conducted as a one-hour long face-to-face interview, although the data I collected refers to the 2020-22 time period and was partially collected online due to the COVID-19 pandemic. (The content in italics has been quoted from the original dataset source).
 
   My research question is: _How does age affect people's voting ideology across European Countries?_
   
-  I hypothesize that the older the respondents are (the higher the value of age is), the higher their left-to-right political scale is (and thus the more conservative they are). I will specifically look at the difference between select countries (namely, Italy and Hungary) because they have recently held elections that brought right-wing parties to power.
+  I hypothesize that the older the respondents are (the higher the value of age is), the higher their left-to-right political scale is (and thus the more conservative they are). I will specifically look at the difference between select countries (namely, Italy and the United Kingdom) because they have recently held elections that brought right-wing parties to power.
 
    My sample is comprised of all respondents from the EU who sat down with interviewers from the European Social Survey European Research Infrastructure Consortium. I will then subset this data to include only those that indicated that their country of origin is Italy or the United Kingdom (their value of	`country` is **IT** or **GB**) and analyze the correlation between variables based on this data. My unit of analysis is a single respondent to the survey.
       
   The explanatory variable of interest is therefore `agea`, which is varied throughout this database (with a minimum value of 15 and a maximum value of 90, with 999 being the value for those respondents that did not indicate their age)  and the outcome variable of interest is where, on a scale from 1 to 10 (with 77 for Refusal and 88 for No Answer), the respondents position themselves politically, with 1 being the indicator for the far left and 10 being the far right (`lrscale`). 
+  
+  The value of `agea` is given by the candidate at the time of the interview. The value of `lrscale` is given by the candidates as well, after asking them the following question: __In politics people sometimes talk of 'left' and 'right'. Using this card, where would you place yourself on this scale, where 0 means the left and 10 means the right?__. Thus, the method utilized for both variables is a survey.
       
   To analyze this data, I assume that the respondents under 18 years old were able to form politically valuable opinions that firmly positioned them on the left-to-right index although not yet being able to vote.
 	    
@@ -29,14 +31,25 @@ The European Social Survey (ESS) is a biannual survey conducted throughout vario
       
  A linear regression that supports my hypothesis would have a positive coefficient between `age` and `lrscale`. If it were negative, it would be a linear regression that rejected my hypothesis.
 
+**Why is it interesting?**
+  
+  The European Social Survey measures a number of social well-being indexes throughout Europe in a prolonged period of time. Just recently, some European countries have undergone events that steered the political spectrum of most of the population to the right, thus allowing right-wing governments to come to power. 
+  
+  Namely, the United Kingdom underwent (as the rest of the world) a great economic crisis in 2008-2009, and a consecutive shift to a right wing government in 2010. <a href="#footnote-1">(1)</a> Italy, more recently, was deeply affected by the COVID-19 pandemic, after which a right-wing government was elected in 2022.<a href="#footnote-2">(2)</a> Although they happened at different times, they are examples of how a deeply affecting event can turn the political cards of a country. 
+  
+  In my analysis, I aim to analyze these shifts. Because the data is more recent, I will treat the UK data as a long-term effect estimator of how steady the population's left-to-right index has been based on age, assuming this ideology was more to the right when the last conservative shift happened in 2010 (a conservative government is still in place today). That is, is the scale as people get older still steered more to the right as it was thirteen years ago? As per Italy, since the data is more recent, I will treat it as a short-term indicator of the effect age has on people's political index.
+  
+  <p id="footnote-1">(1) Allen, Grahame. Recession and Recovery, 2010. House of Commons Library Research. <a href="https://www.parliament.uk/globalassets/documents/commons/lib/research/key_issues/key-issues-recession-and-recovery.pdf"> Link. </a></p>
+  
+<p id="footnote-2">(2) Estimated percentage of votes won in the chamber of deputies and senate in the Italian general election of 2022, by coalition. Statista, 2022. <a href="https://www.statista.com/statistics/1335834/italy-election-results/">Link.</a></p>
 
-
-<h3>Implementation</h3>
+<h3>Implementation and Results</h3>
 
 ```{r}
 library(tidyverse)
 library(broom)
 library(knitr)
+library(infer)
 
 ESS10_data <- read_csv("index_files/ESS10.csv")
 
@@ -63,7 +76,7 @@ data_all |>
 
 ```
 
-<h3>Description of my findings - v.1</h3>
+<h3>Description of findings - v.1</h3>
 
 The graph shows that on average, Europe is consistent among age groups in their voting ideologies. In particular, there is no clear relation between age and left-to-right voting index, thus showing weak causality.
 
@@ -84,7 +97,7 @@ data_italy_GB |>
        x = "Age Groups")
 
 ```
-<h3>Description of my findings - v.2</h3>
+<h3>Description of findings - v.2</h3>
 In these two graphs, I analyze the difference in the relationship between the age groups and the lef-to-right political indexes in Italy and the United Kingdom. 
 
 The results of this analysis show that there is stronger correlation between age and political ideology in the United Kingdom than there is in Italy. That is, in the UK, as survey respondents get older, their political ideology tends to steer to the right, as indicated by the rise in the `lrscale` index. Italy's graph, on the other hand, shows that there is a very weak correlation between age and voting ideology: although the 60-75 age group has a higher `lrscale` value, this decreases for the 75+ group, so I can't assume causality here. 
