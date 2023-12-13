@@ -1,7 +1,7 @@
 ---
-title: "Gov 50 Final Project"
+title: "The effect of Age on Political Ideology"
 author: "Lenny Pische"
-description: "My final project"
+description: "Drawing on two European countries that recently switched to a right-wing government, I seek to analyze the effect that age has on voting behavior."
 output:
   distill::distill_article:
     self_contained: false
