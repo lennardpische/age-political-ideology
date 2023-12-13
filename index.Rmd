@@ -31,7 +31,7 @@ The European Social Survey (ESS) is a biannual survey conducted throughout vario
       
   The explanatory variable of interest is therefore `agea`, which is varied throughout this database (with a minimum value of 15 and a maximum value of 90, with 999 being the value for those respondents that did not indicate their age)  and the outcome variable of interest is where, on a scale from 1 to 10 (with 77 for Refusal and 88 for No Answer), the respondents position themselves politically, with 1 being the indicator for the far left and 10 being the far right (`lrscale`). 
   
-  The value of `agea` is given by the candidate at the time of the interview. The value of `lrscale` is given by the candidates as well, after asking them the following question: __In politics people sometimes talk of 'left' and 'right'. Using this card, where would you place yourself on this scale, where 0 means the left and 10 means the right?__. Thus, the method utilized for both variables is a survey.
+  The value of `agea` is given by the candidate at the time of the interview. The value of `lrscale` is given by the candidates as well, after asking them the following question: _In politics people sometimes talk of 'left' and 'right'. Using this card, where would you place yourself on this scale, where 0 means the left and 10 means the right?_. Thus, the method utilized for both variables is a survey, and the survey is a cross-sectional observational study.
   
 <h2>Methodology</h2>
 
@@ -43,9 +43,9 @@ The European Social Survey (ESS) is a biannual survey conducted throughout vario
 
 <h2>Possible Conclusions</h2>
 
-   If I observe higher values of `lrscale` for older ages (i.e. for higher values of `age`), this will confirm my hypothesis; that is, on average, older respondents tend to position themselves as more right-wing. If I observe lower values of `lrscale` for higher values of `age`, then my hypothesis would be rejected; that is, on average, older respondents tend to position themselves as more left-wing.
+   If I observe higher values of `lrscale` for older ages (i.e. for higher values of `agea`), this will confirm my hypothesis; that is, on average, older respondents tend to position themselves as more right-wing. If I observe lower values of `lrscale` for higher values of `agea`, then my hypothesis would be rejected; that is, on average, older respondents tend to position themselves as more left-wing.
       
- A linear regression that supports my hypothesis would have a positive coefficient between `age` and `lrscale`. If it were negative, it would be a linear regression that rejected my hypothesis.
+ A linear regression that supports my hypothesis would have a positive coefficient between `agea` and `lrscale`. If it were negative, it would be a linear regression that rejected my hypothesis.
 
   <p id="footnote-1">(1) Allen, Grahame. Recession and Recovery, 2010. House of Commons Library Research. <a href="https://www.parliament.uk/globalassets/documents/commons/lib/research/key_issues/key-issues-recession-and-recovery.pdf"> Link. </a></p>
   
@@ -100,7 +100,7 @@ The graph shows that on average, Europe is consistent among age groups in their 
 data_italy_GB <- data_all |> 
   filter(cntry %in% c("IT", "GB"))
 
-data_italy_GB |>
+plot_it_gb <- data_italy_GB |>
   group_by(cntry, age_groups) |>
   summarize(mean = mean(lrscale)) |>
   ggplot(aes(x = age_groups, y = mean, fill = cntry)) +
@@ -110,16 +110,20 @@ data_italy_GB |>
   labs(title = "Correlation between Age and Voting Ideology",
        y = "Average Voting Ideology (left 1-10 - right)",
        x = "Age Groups")
-
+plot_it_gb
 ```
 <h3>Description of findings - v.2</h3>
 In these two graphs, I analyze the difference in the relationship between the age groups and the lef-to-right political indexes in Italy and the United Kingdom. 
 
 The results of this analysis show that there is stronger correlation between age and political ideology in the United Kingdom than there is in Italy. That is, in the UK, as survey respondents get older, their political ideology tends to steer to the right, as indicated by the rise in the `lrscale` index. Italy's graph, on the other hand, shows that there is a very weak correlation between age and voting ideology: although the 60-75 age group has a higher `lrscale` value, this decreases for the 75+ group, so I can't assume causality here. 
 
-To successfully understand if there is causality between the two values in the UK and Italy, I need to run a linear regression of the values for both countries. To do that, I will first subset the data to two separate data frames and then compute their regression.
+To successfully understand if there is causality between the two values in the UK and Italy, I need to run a linear regression of the values for both countries. To do that, I will first subset the data to two separate data frames and then compute their regression. This linear regression will be run between `agea` and `lrscale`, but will also be applied to the barplot (this specification is necessary because I am **not** able to compute a linear regression between `age_groups`, a categorical variable, and `lrscale`, a numeric one, but running the linear regression with `agea` stems the desired results).
 
 <h2> Linear Regressions </h2>
+
+Before subsetting the data, it's important to remind that the singular linear regressions for this data produce a line of best fit that has the following form:
+
+$Y = \beta_0 + \beta_1 X$
 
 <h3>Subsetting data</h3>
 ```{r}
@@ -150,6 +154,18 @@ modelsummary::modelsummary(list(`Regression for Italy`= LR_it),
                                          "p = {p.value}"),
                            gof_map = c("nobs", "r.squared", "adj.r.squared"), coef_map = varnames1)
 ```
+
+<h3>Description of Regression findings</h3>
+
+Line of best fit for ITALY:
+
+$Y = 50.5 + 0.294X$
+
+As we can see, the data for Italy has an intercept of approximately $\beta_0 = 50.5$ and an `lrscale` coefficient of $\beta_1 = 0.294$. In a linear regression, the intercept is used to indicate the expected value of the dependent variable `lrscale` at `agea` = 0. Since `agea` is never null in our data set, we conclude that the intercept is not a meaningful value for our analysis. The coefficient $\beta_1 = 0.294$, however, indicates that there is a positive correlation between age and left-to-right political index in Italy, albeit small. Specifically, for each one-unit increase in `agea`, there will be an increase of 0.294 in the value of `lrscale`. Indeed, age is correlated with being more right-wing in Italy, although weakly.
+
+The p-value associated with this regression is $p = 0.095$. If we were to choose a statistical level of significance of $\alpha = 0.05$, and $\alpha = 0.1$, this would mean that our results would be statistically (highly) significant in the context of our study. However, this would not be true if $\alpha = 0.01$.
+
+
 <h3>Linear Regression for the UK</h3>
 ```{r}
 
@@ -160,10 +176,31 @@ modelsummary::modelsummary(list(`Regression for the UK`= LR_uk),
 ```
 <h3>Description of Regression findings</h3>
 
-<h4>ITALY</h4>
+Line of best fit for the UNITED KINGDOM:
+
+$Y$ = 45.45 + 2.118$X$
+
+As we can see, the data for the UK has an intercept of approximately $\beta_0$ = 45.45 and an `lrscale` coefficient of $\beta_1$ = 2.118.Since `agea` is never null in our data set, we conclude that this intercept is not a meaningful value for our analysis. The coefficient $\beta_1$ = 2.118, however, indicates that there is a positive correlation between age and left-to-right political index in UK, bigger than Italy, thus confirming our visual analysis. Specifically, for each one-unit increase in `agea`, there will be an increase of 2.118 in the value of `lrscale`. Indeed, age is correlated with being more right-wing in UK, quite positively.
+
+The p-value associated with this regression is $p < 0.001$. This means that the p-value for this regression is extremely small. If we were to choose a statistical level of significance of $\alpha = 0.05$, $\alpha = 0.1$, or $\alpha = 0.01$ this would mean that our results would be statistically (highly) significant in the context of our study.
 
 
-<h4>UNITED KINGDOM</h4>
+__Now, let's visualize the linear regressions on the graph we displayed earlier:__
+
+```{r}
+plot_it_gb +
+  geom_smooth(method = "lm", se = FALSE, aes(group = 1), color = "white") +
+labs(fill = "Country")
+```
+
+
+<h3>Causality and confounders</h3>
+
+The computed linear regressions and plots show that there is a relationship between age and political ideology in the survey. But does this _actually_ imply causality between the two?
+
+Political Ideology is a very volatile variable to assess. In fact, 
+
+
 
 <h2>Conclusions</h2>
 
