@@ -386,11 +386,11 @@ This indicates that there is quite a relatively large difference between the two
 
 <p><strong>Data Source</strong>: European Social Survey (ESS) EDITION 10 - 2020 https://ess.sikt.no/en/study/172ac431-2a06-41df-9dab-c1fd8f3877e7 </p>
 
-  <p id="footnote-1">(1) Allen, Grahame. Recession and Recovery, 2010. House of Commons Library Research. <a href="https://www.parliament.uk/globalassets/documents/commons/lib/research/key_issues/key-issues-recession-and-recovery.pdf"> Link. </a></p>
+  <p id="footnote-1">(1) Allen, Grahame. _Recession and Recovery, 2010._ House of Commons Library Research. <a href="https://www.parliament.uk/globalassets/documents/commons/lib/research/key_issues/key-issues-recession-and-recovery.pdf"> Link. </a></p>
   
-<p id="footnote-2">(2) Estimated percentage of votes won in the chamber of deputies and senate in the Italian general election of 2022, by coalition. Statista, 2022. <a href="https://www.statista.com/statistics/1335834/italy-election-results/">Link.</a></p>
+<p id="footnote-2">(2) _Estimated percentage of votes won in the chamber of deputies and senate in the Italian general election of 2022, by coalition._ Statista, 2022. <a href="https://www.statista.com/statistics/1335834/italy-election-results/">Link.</a></p>
 
-<p id="footnote-3">(3) List of United Kingdom general elections. Wikipedia, the free encyclopedia, 2023. <a href="https://en.wikipedia.org/wiki/List_of_United_Kingdom_general_elections">Link.</a></p>
+<p id="footnote-3">(3) _List of United Kingdom general elections._ Wikipedia, the free encyclopedia, 2023. <a href="https://en.wikipedia.org/wiki/List_of_United_Kingdom_general_elections">Link.</a></p>
 
 
 _This project has been completed on Wednesday, December 13th, 2023. It is the final assignment of the Harvard University undergraduate course **GOV 50: Data Science for the Social Sciences** for the Fall 2023 Semester._
