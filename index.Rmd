@@ -1,7 +1,12 @@
 ---
-title: "The Effect of Age on Political Ideology"
-author: "Lenny Pische"
+title: "The Effect of Age on Political Ideology in Europe"
+author: 
+- name: "Lenny Pische"
+  affiliation: "Harvard University"
+  url: https://github.com/lennardpische
+  affiliation_url: https://harvard.edu
 description: "Drawing on two European countries that recently switched to a right-wing government, I seek to analyze the effect that age has on political ideology."
+
 output:
   distill::distill_article:
     self_contained: false
@@ -20,36 +25,38 @@ output:
 
 <h2 id="one">Introduction</h2>
 
-Recent electoral results throughout Europe have brought to power a wide variety of political parties, each with different aims and policies to be introduced once in a position of authority. Just recently, some European countries have undergone events that steered the political spectrum of most of the population to the right, thus allowing right-wing governments to come to power. For example, the United Kingdom underwent (as the rest of the world) a great economic crisis in 2008-2009, and a consecutive shift to a right wing government in 2010. <a href="#footnote-1">(1)</a> Italy, more recently, was deeply affected by the COVID-19 pandemic, after which a right-wing government was elected in 2022.<a href="#footnote-2">(2)</a> Although they happened at different times, they are examples of how a deeply affecting event can turn the political cards of a country.
+Recent electoral results throughout Europe have brought to power a wide variety of political parties, each with different aims and policies to be introduced once in a position of authority. Just recently, some European countries have undergone events that steered the political spectrum of most of the population to the right, thus allowing right-wing governments to come to power. For example, the United Kingdom underwent (as the rest of the world) a great economic crisis in 2008-2009, and a consecutive shift to a right wing government in 2010 <a href="#footnote-1">(1)</a>. Italy, more recently, was deeply affected by the COVID-19 pandemic, after which a right-wing government was elected in 2022<a href="#footnote-2">(2)</a>. Although they happened at different times, they are examples of how a deeply affecting event can turn the political cards of a country.
 
-The present study attempts to assess these shifts in power, focusing on the effect that age has on one's political ideology in Europe. I first look at the overall effect that age has on political ideology, then turn to specific country examples to understand the differences between countries whose right-wing governments have more recently settled and those whose right-wing governments have been in power for a longer period of time. 
+The present study attempts to assess these shifts in power, focusing on the effect that age has on one's political ideology in Europe. I first look at the overall effect that age has on political ideology in Europe, then turn to specific country examples to understand the differences between countries whose right-wing governments have more recently settled and those whose right-wing governments have been in power for a longer period of time. 
 
 
 <h2 id="two">Data source</h2>
 
-_**Premise**: The data has been downloaded from the ESS Official Website and then resized to accommodate the needs of this project. That is, a sizeable portion of the unnecessary data has been cut from the original CSV file. Although this has been done, that data is not relevant to this project, as I aim to analyze different variables._
+**Premise**: _The data has been downloaded from the ESS Official Website and then resized to accommodate the needs of this project. That is, a sizeable portion of the unnecessary data has been cut from the original CSV file. Although this has been done, that data is not relevant to this project, as I aim to analyze different variables._
 
 **Data Source**: European Social Survey (ESS) EDITION 10 - 2020 - https://ess.sikt.no/en/study/172ac431-2a06-41df-9dab-c1fd8f3877e7 
 
-The European Social Survey (ESS) is a biannual survey conducted throughout various countries of the European Union that measures _changing public attitudes and values within Europe_, advances and consolidates _improved methods of cross-national survey measurement in Europe_  and develops _a series of European social indicators, including attitudinal indicators._ It is conducted as a one-hour long face-to-face interview, although the data I collected refers to the 2020-22 time period and was partially collected online due to the COVID-19 pandemic. (The content in italics has been quoted from the original data set source). In my project, I will exploit the publicly available data of this survey.
+The European Social Survey (ESS) is a biannual survey conducted throughout various countries of the European Union that measures &quot;changing public attitudes and values within Europe&quot;, advances and consolidates &quot;improved methods of cross-national survey measurement in Europe&quot;  and develops &quot;a series of European social indicators, including attitudinal indicators.&quot;
+
+The survey is conducted as a one-hour long face-to-face interview of each respondent, although the data I collected refers to the 2020-22 time period and was partially collected online due to the COVID-19 pandemic. In my project, I will exploit the publicly available data of this survey.
 
 <h2 id="three">Data Analysis</h2>
 
-  My research question is: _How does age affect people's voting ideology across European Countries?_
+  My research question is: **_How does age affect people's voting ideology across European Countries?_**
   
-  I hypothesize that the older the respondents are (the higher the value of age is), the higher their left-to-right political scale is (and thus the more conservative they are). I will specifically look at the difference between select countries (namely, Italy and the United Kingdom) because they have both recently held elections that brought right-wing parties to power.
+  I hypothesize that the older the respondents are (the higher the value of age is), the higher their left-to-right political scale is (and thus the more conservative they are). My sample is comprised of all respondents from the EU who sat down with interviewers from the European Social Survey European Research Infrastructure Consortium. I will specifically look at the difference between select countries (namely, Italy and the United Kingdom) because they have both recently held elections that brought right-wing parties to power.
 
-   My sample is comprised of all respondents from the EU who sat down with interviewers from the European Social Survey European Research Infrastructure Consortium. I will then subset this data to include only those that indicated that their country of origin is Italy or the United Kingdom (their value of	`country` is **IT** or **GB**) and analyze the correlation between variables based on this data. My unit of analysis is a single respondent to the survey.
+  I will then subset this data to include only those that indicated that their country of origin is Italy or the United Kingdom (their value of	`cntry` is **IT** or **GB**) and analyze the correlation between variables based on this data. My unit of analysis is a single respondent to the survey.
       
-  The explanatory variable of interest is therefore `agea`, which is varied throughout this database (with a minimum value of 15 and a maximum value of 90, with 999 being the value for those respondents that did not indicate their age)  and the outcome variable of interest is where, on a scale from 1 to 10 (with 77 for Refusal and 88 for No Answer), the respondents position themselves politically, with 1 being the indicator for the far left and 10 being the far right (`lrscale`). 
+  The explanatory variable of interest is therefore `agea`, which is varied throughout this database (with a minimum value of 15 and a maximum value of 90, with 999 being the value for those respondents that did not indicate their age)  and the outcome variable of interest is where, on a scale from 1 to 10 (with 77 for &quot;Refusal&quot; and 88 for &quot;No Answer&quot;), the respondents position themselves politically, with 1 being the indicator for the far left and 10 being the far right (`lrscale`). 
   
-  The value of `agea` is given by the candidate at the time of the interview. The value of `lrscale` is given by the candidates as well, after asking them the following question: _In politics people sometimes talk of 'left' and 'right'. Using this card, where would you place yourself on this scale, where 0 means the left and 10 means the right?_. Thus, the method utilized for both variables is a survey, and the survey is a cross-sectional observational study.
+  The value of `agea` is given by the candidate at the time of the interview. The value of `lrscale` is given by the candidates as well, after asking them the following question: &quot;_In politics people sometimes talk of 'left' and 'right'. Using this card, where would you place yourself on this scale, where 0 means the left and 10 means the right?_&quot;. Thus, the method utilized for both variables is a survey, and the survey is a cross-sectional observational study.
   
 <h2 id="four">Methodology</h2>
 
   The European Social Survey measures a number of social well-being indexes throughout Europe in a prolonged period of time. 
   
-   Because the data is more recent, I will treat the UK data as a long-term effect estimator of how steady the population's left-to-right index has been based on age, assuming this ideology was more to the right when the last conservative shift happened in 2010 (a conservative government is still in place today). That is, is the scale as people get older still steered more to the right as it was thirteen years ago? As per Italy, since the data is more recent, I will treat it as a short-term indicator of the effect age has on people's political index.
+   Because the data is more recent, I will treat the UK data as a long-term effect estimator of how steady the population's left-to-right index has been based on age, **assuming this ideology was more to the right when the last conservative shift happened in 2010** (no party other than the Conservatives have won the election since 2010 <a href="#footnote-3">(3)</a>. That is, is the scale as people get older still steered more to the right as it was thirteen years ago? As per Italy, since the data is more recent, I will treat it as a short-term indicator of the effect age has on people's political index.
       
   To analyze the data I have, I will assume that the respondents under 18 years old were able to form politically valuable opinions that firmly positioned them on the left-to-right index although not yet being able to vote.
 
@@ -57,11 +64,11 @@ The European Social Survey (ESS) is a biannual survey conducted throughout vario
 
    If I observe higher values of `lrscale` for older ages (i.e. for higher values of `agea`), this will confirm my hypothesis; that is, on average, older respondents tend to position themselves as more right-wing. If I observe lower values of `lrscale` for higher values of `agea`, then my hypothesis would be rejected; that is, on average, older respondents tend to position themselves as more left-wing.
       
- A linear regression that supports my hypothesis would have a positive coefficient between `agea` and `lrscale`. If it were negative, it would be a linear regression that rejected my hypothesis.
+ A linear regression that supports my hypothesis would have a positive coefficient between `agea` and `lrscale`. If it were negative, it would be a linear regression that rejected my hypothesis. However, I will also account for confounders in my final analysis.
 
 <h2 id="six">Implementation and Results</h2>
 
-<h3>Reading data</h3>
+<h3>Loading libraries and Reading data</h3>
 ```{r}
 library(tidyverse)
 library(broom)
@@ -85,7 +92,7 @@ data_all <- ESS10_data |>
   
 ```
 
-<h3>Computing visualization of Europe's age to left-to-right index relation</h3>
+<h3>Computing visualization of Europe's age to left-to-right index overall relation</h3>
 ```{r}
 data_all |>
   group_by(age_groups) |>
@@ -101,7 +108,7 @@ data_all |>
 
 <h3>Description of findings - v.1</h3>
 
-The graph shows that on average, Europe is consistent among age groups in their voting ideologies. In particular, there is no clear relation between age and left-to-right voting index, thus showing weak causality.
+The graph shows that on average, Europe is consistent among age groups in their voting ideologies. In particular, there is no clear relation between age and left-to-right voting index, thus showing weak correlation.
 
 <h3>Computing visualization of Italy's and the UK's age to left-to-right index relation for comparison</h3>
 ```{r}
@@ -123,9 +130,9 @@ plot_it_gb
 <h3>Description of findings - v.2</h3>
 In these two graphs, I analyze the difference in the relationship between the age groups and the left-to-right political indexes in Italy and the United Kingdom. 
 
-The results of this analysis show that there is stronger correlation between age and political ideology in the United Kingdom than there is in Italy. That is, in the UK, as survey respondents get older, their political ideology tends to steer to the right, as indicated by the rise in the `lrscale` index. Italy's graph, on the other hand, shows that there is a very weak correlation between age and voting ideology: although the 60-75 age group has a higher `lrscale` value, this decreases for the 75+ group, so I can't assume causality here. 
+The results of this analysis show that there is stronger correlation between age and political ideology in the United Kingdom than there is in Italy. That is, in the UK, as survey respondents get older, their political ideology tends to steer to the right, as indicated by the rise in the `lrscale` index. Italy's graph, on the other hand, shows that there is a very weak correlation between age and voting ideology: although the 60-75 age group has a higher `lrscale` value, this decreases for the 75+ group, so I can't assume causality based solely on the visualization. 
 
-To successfully understand if there is causality between the two values in the UK and Italy, I need to run a linear regression of the values for both countries. To do that, I will first subset the data to two separate data frames and then compute their regression. This linear regression will be run between `agea` and `lrscale`, but will also be applied to the barplot (this specification is necessary because I am **not** able to compute a linear regression between `age_groups`, a categorical variable, and `lrscale`, a numeric one, but running the linear regression with `agea` stems the desired results).
+To successfully understand if there is causality between the two values in the UK and Italy, I need to run a linear regression of the values for both countries. To do that, I will first subset the data to two separate data frames and then compute their regression. This linear regression will be run between `agea` and `lrscale`, although the barplot reports `age_groups` (this specification is necessary because I am **not** able to compute a linear regression between `age_groups`, a categorical variable, and `lrscale`, a numeric one, but running the linear regression with `agea` stems results that can be applied to the graph that reports `lrscale` based on `age_groups`).
 
 <h2 id="seven"> Linear Regressions </h2>
 
@@ -153,16 +160,16 @@ LR_uk <- lm(agea ~ lrscale, data = data_uk)
 
 ```
 
-<h3>Single Linear Regression for Italy</h3>
+<h3>Single-Variable Linear Regression for Italy</h3>
 ```{r}
 varnames1 <- c("(Intercept)" = "Intercept",
                "lrscale" = "Left-to-Right Political Index")
 
-modelsummary::modelsummary(list(`Regression for Italy`= LR_it), 
-                           
-                           statistic = c("s.e. = {std.error}",
-                                         "p = {p.value}"),
-                           gof_map = c("nobs", "r.squared", "adj.r.squared"), coef_map = varnames1)
+modelsummary::modelsummary(list
+   (`Regression for Italy`= LR_it),
+  statistic = c("s.e. = {std.error}","p = {p.value}"), 
+   gof_map = c("nobs", "r.squared", "adj.r.squared"), 
+                           coef_map = varnames1)
 ```
 
 <h3>Description of Regression findings</h3>
@@ -173,16 +180,18 @@ $Y = 50.5 + 0.294x + \epsilon$
 
 As we can see, the data for Italy has an intercept of approximately $\beta_0 = 50.5$ and an `lrscale` coefficient of $\beta_1 = 0.294$. In a linear regression, the intercept is used to indicate the expected value of the dependent variable `agea` at `lrscale` = 0. Therefore, the age at which the least conservative ideology occurs in Italy is approximately 50 years old. The coefficient $\beta_1 = 0.294$, however, indicates that there is a positive correlation between age and left-to-right political index in Italy, albeit small. Specifically, for each one-unit increase in `lrscale`, there will be an increase of 0.294 in the value of `agea`. Indeed, age is correlated with being more right-wing in Italy, although weakly.
 
-The p-value associated with this regression is $p = 0.095$. If we were to choose a statistical level of significance of $\alpha = 0.1$, this would mean that our results would be (marginally) statistically significant in the context of our study. However, this would not be true if $\alpha = 0.01$ or $\alpha = 0.05$,
+The p-value associated with this regression is $p = 0.095$. If we were to choose a statistical level of significance of $\alpha = 0.1$, this would mean that our results would be (marginally) statistically significant in the context of our study. However, this would not be true if $\alpha = 0.01$ or $\alpha = 0.05$, in which case our results would not be statistically significant. 
 
 
 <h3>Single Linear Regression for the UK</h3>
 ```{r}
-
-modelsummary::modelsummary(list(`Regression for the UK`= LR_uk),
-                           statistic = c("s.e. = {std.error}",
-                                         "p = {p.value}"),
-                           gof_map = c("nobs", "r.squared", "adj.r.squared"), coef_map = varnames1)
+modelsummary::modelsummary(list(
+  `Regression for the UK`= LR_uk), 
+  statistic = c("s.e. = {std.error}",
+                "p = {p.value}"),
+  gof_map = c("nobs", "r.squared",
+              "adj.r.squared"),
+  coef_map = varnames1)
 ```
 <h3>Description of Regression findings</h3>
 
@@ -193,7 +202,6 @@ $Y = 45.45 + 2.118x + \epsilon$
 As we can see, the data for the UK has an intercept of approximately $\beta_0$ = 45.45 and an `lrscale` coefficient of $\beta_1$ = 2.118. Therefore, the age at which the least conservative ideology occurs in Italy is approximately 45 years old. The coefficient $\beta_1$ = 2.118, however, indicates that there is a positive correlation between age and left-to-right political index in UK, bigger than Italy, thus confirming our visual analysis. Specifically, for each one-unit increase in `lrscale`, there will be an average increase of 2.118 in the value of `agea`. Indeed, age is correlated with being more right-wing in UK, quite positively.
 
 The p-value associated with this regression is $p < 0.001$. This means that the p-value for this regression is extremely small. If we were to choose a statistical level of significance of $\alpha = 0.05$, $\alpha = 0.1$, or $\alpha = 0.01$ this would mean that our results would be statistically (highly) significant in the context of our study.
-
 
 __Now, let's visualize the linear regressions on the graph we displayed earlier:__
 
@@ -212,7 +220,7 @@ Political Ideology is a very volatile variable to assess. In fact, the value tha
 
 Possible confounders are variables that are associated with both the independent variable (`agea`) and the dependent variable (`lrscale`). The presence of confounders can affect our analysis of causality.
 
-I can can identify multiple confounders in this research. For the purpose of this project, I will focus on two, which are readily available in the data set: 
+I can can identify multiple confounders in this research. For the purpose of this project, I will focus on only two, which are readily available in the data set: 
 
 **edulvlb**: Highest Level of Education obtained. Possible values are 0 (did not complete primary education), 113, 129, 212, 213, 221, 222, 223, 229, 311, 312, 313, 313, 321, 322, 323, 412, 413, 421, 422, 423, 510, 520, 610, 620, 710, 720, 800, 5555 (other). Thus, the higher the value of  `edulvlb`, the higher the level of education obtained. In my analysis, I will exclude the value 5555, as it is not needed for the purpose of this project. 
 
@@ -257,11 +265,11 @@ varnames1 <- c("(Intercept)" = "Intercept",
                "edulvlb" = "Education Level",
                "hhmmb" = "Number of children in household")
 
-modelsummary::modelsummary(list(`Multiple Regression for Italy`= MLR_it), 
-                           
-                           statistic = c("s.e. = {std.error}",
-                                         "p = {p.value}"),
-                           gof_map = c("nobs", "r.squared", "adj.r.squared"), coef_map = varnames1)
+modelsummary::modelsummary(list(
+  `Multiple Regression for Italy`= MLR_it),
+  statistic = c("s.e. = {std.error}", "p = {p.value}"),
+  gof_map = c("nobs", "r.squared", "adj.r.squared"),
+  coef_map = varnames1)
 
 ```
 
@@ -298,21 +306,21 @@ ggplot(data_italy_multiple, aes(x = hhmmb, y = agea)) +
 <h3>Interpretation of the Multiple Linear Regressions, for Italy </h3>
 
 <ul>
-<li>**Intercept (85.128)**: This is the expected value of `agea` when all the independent variables (`lrscale`, `edulvlb`, and `hhmmb`) are zero. The practical interpretation is substantial, as all independent variables can assume a value of 0, although quite unlikely in the real world. Thus, the average age in Italy of respondents that are very liberal, didn't finish primary education, and do not have children in their household is approximately 85 years old, in Italy.</li>
-<li>**Left-to-Right Political Index (−0.011)**: The coefficient for `lrscale` is -0.011, and its p-value is 0.951, which is not statistically significant at a statistical significance level of $\alpha = 0.05$. This implies that there is no strong evidence of an association between political ideology and age, accounting for education level and number of children in the household.</li>
-<li>**Education Level (−0.057)**: The coefficient for `edulvlb` is -0.057 with a p-value of <0.001, indicating a statistically significant negative association with age at a statistical significance level of $\alpha = 0.05$. This suggests that for each additional unit increase in the education level (the higher their education is), the respondent’s age is expected to decrease by 0.057 years, holding other variables constant (thus, younger people are more educated, on average, in Italy).</li>
-<li>**Number of Children in Household (−6.351)**: The coefficient for `hhmmb` is -6.351 with a p-value of <0.001, suggesting a significant negative relationship with age. This means that for each additional child in the household, the respondent’s age is expected to decrease by approximately 6.351 years, holding other factors constant (thus, younger people have more children in Italy).</li>
+<li>**Intercept (85.128)**: This is the expected value of `agea` when all the independent variables (`lrscale`, `edulvlb`, and `hhmmb`) are zero. The practical interpretation is substantial, as all independent variables can assume a value of 0, although quite unlikely in the real world. Thus, the average age in Italy of respondents that are very liberal, didn't finish primary education, and do not have children in their household is approximately 85 years old.</li>
+<li>**Left-to-Right Political Index (−0.011)**: The coefficient for `lrscale` is -0.011, and its p-value is 0.951, which is not statistically significant at a statistical significance level of $\alpha = 0.05$. This implies that there is no strong evidence of an association between political ideology and age, accounting for education level and number of children in the household, in Italy.</li>
+<li>**Education Level (−0.057)**: The coefficient for `edulvlb` is -0.057 with a p-value of $<0.001$, indicating a statistically significant negative association with age at a statistical significance level of $\alpha = 0.05$. This suggests that for each additional unit increase in the education level (the higher their education is), the respondent’s age is expected to decrease by 0.057 years, holding other variables constant (thus, younger people are more educated, on average, in Italy).</li>
+<li>**Number of Children in Household (−6.351)**: The coefficient for `hhmmb` is -6.351 with a p-value of $<0.001$, suggesting a significant negative relationship with age. This means that for each additional child in the household, the respondent’s age is expected to decrease by approximately 6.351 years, holding other factors constant (thus, younger people have more children in Italy).</li>
 </ul>
 
 <h3>Multiple Linear Regression for the UK</h3>
 
 ```{r}
 
-modelsummary::modelsummary(list(`Multiple Regression for the United Kingdom`= MLR_uk), 
-                           
-                           statistic = c("s.e. = {std.error}",
-                                         "p = {p.value}"),
-                           gof_map = c("nobs", "r.squared", "adj.r.squared"), coef_map = varnames1)
+modelsummary::modelsummary(list(
+  `Multiple Regression for the United Kingdom`= MLR_uk),
+  statistic = c("s.e. = {std.error}", "p = {p.value}"),
+  gof_map = c("nobs", "r.squared", "adj.r.squared"),
+  coef_map = varnames1)
 ```
 
 <h3>Plotting the regression for the UK</h3>
@@ -349,32 +357,29 @@ ggplot(data_uk_multiple, aes(x = hhmmb, y = agea)) +
 <h3>Interpretation of the Multiple Linear Regressions, for the United Kingdom </h3>
 
 <ul>
-<li>**Intercept (58.565)**: This shows that the average age in the UK of respondents that are very liberal, didn't finish primary education, and do not have children in their household is approximately 59 years old.</li>
-<li>**Left-to-Right Political Index (1.998)**: The coefficient for `lrscale` is 1.998, and its p-value is $p<0.001$, which indicates a statistically significant positive correlation at a statistical significance level of $\alpha = 0.05$ and other statistical significance levels. This implies that there is strong evidence of an association between political ideology and age, accounting for education level and number of children in the household, in the UK.</li>
-<li>**Education Level (0.001)**: The coefficient for `edulvlb` is 0.001 with a p-value of 0.067, indicating a non-statistically significant and rather weak, positive association with age at a statistical significance level of $\alpha = 0.05$. This suggests that for each additional unit increase in the education level (the higher their education is), the respondent’s age is expected to decrease by 0.001 years, holding other variables constant (thus, older people are more educated, on average, in the UK). Because this is a very weak relationship and it is **not** statistically significant, we can't assume causality.</li>
-<li>**Number of Children in Household (−6.288)**: The coefficient for `hhmmb` is -6.288 with a p-value of <0.001, suggesting a significant negative relationship with age. This means that for each additional child in the household, the respondent’s age is expected to decrease by approximately 6.288 years, holding other factors constant (thus, younger people have more children in the UK).</li>
+<li>**Intercept (68.299)**: This shows that the average age in the UK of respondents that are very liberal, didn't finish primary education, and do not have children in their household is approximately 68 years old.</li>
+<li>**Left-to-Right Political Index (1.637)**: The coefficient for `lrscale` is 1.637, and its p-value is $p<0.001$, which indicates a statistically significant positive correlation at a statistical significance level of $\alpha = 0.05, \alpha = 0.01, \alpha = 0.1$. This implies that there is strong evidence of an association between political ideology and age, accounting for education level and number of children in the household, in the UK.</li>
+<li>**Education Level (-0.015)**: The coefficient for `edulvlb` is -0.015 with a p-value of $<0.001$, indicating a statistically significant and rather weak, negative association with age at a statistical significance level of $\alpha = 0.05, \alpha = 0.05, \alpha = 0.01, \alpha = 0.1$. This suggests that for each additional unit increase in the education level (the higher their education is), the respondent’s age is expected to decrease by 0.015 years, holding other variables constant (thus, younger people are more educated, on average, in the UK).</li>
+<li>**Number of Children in Household (−7.221)**: The coefficient for `hhmmb` is $-7.221$ with a p-value of $<0.001$, suggesting a statistically significant negative relationship with age. This means that for each additional child in the household, the respondent’s age is expected to decrease by approximately 7.221 years, holding other factors constant (thus, younger people have more children in the UK).</li>
 </ul>
-
-
-
 
 <h2 id="eight">Conclusions</h2>
 
 This project aimed to analyze the relationship between age and political ideology in Europe, focusing on two countries that have recently undergone relevant, drastic changes in their political systems, Italy and the United Kingdom. The analysis of the data showed that, while there is a positive correlation between age and the political ideology index in the latest version of the European Social Survey (ESS), it is not causal due to the presence of multiple confounders, among which there are the respondents' education level and number of children in their household. Thus, my hypothesis is not proved fully. 
 
-More analysis is needed, perhaps focusing on all possible confounders. However, this can prove difficult as political ideology is extremely difficult to comprehensively analyze causally, if not impossible. If provided with the needed resources, I could expand my project as to include (1) more editions of the ESS, and (2) include as many confounders as possible in my research.
+More analysis is needed, perhaps focusing on all possible confounders. However, this can prove burdensome as political ideology is extremely difficult to comprehensively analyze causally, if not impossible. If provided with the needed resources, I could expand my project as to include (1) more editions of the ESS, and (2) include as many confounders as possible in my research.
 
 <h3>Limitations</h3>
 
 An observation that is relevant in the context of this study can be made regarding the sample sizes of this analysis. As can be seen in the linear regression tables, the sample sizes for Italy and the UK are different. Specifically:
 
 <ul>
-<li>In the simple regression, the sample size for Italy is _1928_. In the multiple regression, it is _1925_.</li>
-<li>In the simple regression, the sample size for the UK is _1070_. In the multiple regression, it is _1063_.</li>
+<li>In the simple regression, the sample size for Italy is _**1928**_. In the multiple regression, it is _**1925**_.</li>
+<li>In the simple regression, the sample size for the UK is _**1070**_. In the multiple regression, it is _**1063**_.</li>
 </ul>
 
 
-This indicates that there is quite a large difference between the two samples. Thus, the UK data might not be as accurate as the one from Italy.
+This indicates that there is quite a relatively large difference between the two samples. Thus, the UK data might not be as accurate as the one from Italy.
 
 
 <h2 id="nine">Works Cited</h2>
@@ -384,6 +389,9 @@ This indicates that there is quite a large difference between the two samples. T
   <p id="footnote-1">(1) Allen, Grahame. Recession and Recovery, 2010. House of Commons Library Research. <a href="https://www.parliament.uk/globalassets/documents/commons/lib/research/key_issues/key-issues-recession-and-recovery.pdf"> Link. </a></p>
   
 <p id="footnote-2">(2) Estimated percentage of votes won in the chamber of deputies and senate in the Italian general election of 2022, by coalition. Statista, 2022. <a href="https://www.statista.com/statistics/1335834/italy-election-results/">Link.</a></p>
+
+<p id="footnote-3">(3) List of United Kingdom general elections. Wikipedia, the free encyclopedia, 2023. <a href="https://en.wikipedia.org/wiki/List_of_United_Kingdom_general_elections">Link.</a></p>
+
 
 _This project has been completed on Wednesday, December 13th, 2023. It is the final assignment of the Harvard University undergraduate course **GOV 50: Data Science for the Social Sciences** for the Fall 2023 Semester._
 
